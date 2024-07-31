@@ -1,0 +1,14 @@
+<view class="tabbar">
+  <view class="tabbar-item {{select === index ? 'tabbar-select':''}}" wx:for="{{list}}" wx:key="index" data-page="{{item.pagePath}}" data-index="{{item.index}}" data-type="{{item.type}}" bindtap="selectPage">
+    <block wx:if="{{item.type === 0}}">
+      <image class="image" wx:if="{{select === index}}" src="../{{item.selectedIconPath}}" />
+      <image class="image" wx:else src="../{{item.iconPath}}" />
+      <text  class="tabbar-text">{{item.text}}</text>
+    </block>
+    <block wx:else="">
+      <view class="publish">
+        <image class="tabbar-image" src="../images/tabbar/发布 (1).png" />
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,37 @@
+.search {
+  background-color: #fff;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  /* 交叉轴居中 */
+  justify-content: center;
+  /* 主轴居中 */
+}
+
+.search-input {
+  height: 80rpx;
+  background-color: #f3f3f3;
+  width: 90%;
+  border-radius: 40rpx;
+  position: relative;
+  color: #000;
+  display: flex;
+  align-items: center;
+}
+
+.search-content {
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+}
+
+.search-content .search-content-text-image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.search-content .search-content-text {
+  margin-left: 10rpx;
+}

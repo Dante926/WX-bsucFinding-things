@@ -1,0 +1,32 @@
+<!--pages/my/my.wxml-->
+<view class="body">
+  <view class="unlogin-body" wx:if="{{!login}}">
+    <view class="unlogin">
+      <image class="unlogin-image" src="../../images/登录-微信登录.png" />
+      <button class="unlogin-btn" open-type="getUserInfo" bindtap="toLogin">微信登录</button>
+    </view>
+  </view>
+
+  <view class="login" wx:else>
+    <view class="info">
+      <image class="info-image" src="{{avatarUrl}}" />
+      <text class="info-text">{{nickName}}</text>
+    </view>
+
+    <view class="cell-body">
+      <view class="cell-list">
+        <view class="cell" wx:for="{{cellList}}" wx:key="index">
+          <view class="cell-left" >
+            <image class="cell-left-image" src="{{item.url}}" />
+            <text class="cell-left-text">{{item.text}}</text>
+          </view>
+          <view class="cell-right">
+            <image class="cell-right-image" src="../../images/my/大于号.png" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+
+  </view>
+</view>

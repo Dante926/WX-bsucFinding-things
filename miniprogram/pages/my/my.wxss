@@ -1,0 +1,91 @@
+.unlogin-body{
+  background-color: #fff;
+  height: 100vh;
+  width: 100vw;
+}
+
+.unlogin{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50%;
+}
+
+.unlogin .unlogin-image{
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.unlogin .unlogin-btn{
+   margin-top: 50rpx;
+   width: 75%;
+   background-color: #fe2442;
+   color: #fff;
+   height: 100rpx;
+}
+
+.info{
+  background-color: #fe2442;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 100rpx 0;
+}
+
+.info .info-image{
+  width: 220rpx;
+  height: 220rpx;
+  border-radius: 50%;
+}
+
+.info-text{
+  color: #fff;
+}
+
+.cell-body{
+  position: relative;
+}
+
+.cell-list{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  top: -20rpx;
+}
+
+.cell{
+  display: flex;
+  justify-content: space-between;
+  width: 85%;
+  background-color: #fff;
+  padding: 20rpx 20rpx;
+  border-radius: 20rpx;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.cell-left {
+  display: flex;
+  align-items: center;
+}
+
+.cell-left .cell-left-text{
+margin-left: 20rpx;
+font-size: 34rpx;
+}
+
+.cell-left .cell-left-image{
+  width: 60rpx;
+  height: 60rpx;
+
+}
+
+.cell-right .cell-right-image{
+  width: 50rpx;
+  height: 50rpx;
+
+}

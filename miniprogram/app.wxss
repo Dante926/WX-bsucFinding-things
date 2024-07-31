@@ -1,0 +1,9 @@
+/* 修改全局背景色 */
+page{
+  background-color: #f3f3f3;
+}
+
+body {
+  font-size: 16px;
+  font-family: "Microsoft YaHei";
+}

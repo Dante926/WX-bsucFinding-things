@@ -1,0 +1,20 @@
+<view class="body">
+  <!-- 搜索框 -->
+  <SearchInput />
+  <!-- 轮播图 -->
+  <swiper indicator-dots="true" autoplay="true" interval="2000" duration="500">
+    <block wx:for="{{background}}" wx:key="*this">
+      <swiper-item>
+        <image class="banner-image" src="{{item}}" />
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 导航 -->
+  <Tab tabList="{{tabList}}" />
+
+  <!-- 内容 -->
+  <view class="lose">
+      <ViewCard wx:for="{{list}}" wx:key="index" carddata="{{item}}" />
+  </view>
+</view>

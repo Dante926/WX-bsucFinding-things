@@ -1,0 +1,46 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/classify/classify",
+    "pages/collection/collection",
+    "pages/my/my"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fe2442",
+    "navigationBarTitleText": "百院寻物",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "custom": true,
+    "list": [
+      {
+        "iconPath": "images/tabbar/主页.png",
+        "selectedIconPath": "images/tabbar/主页 (1).png",
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "iconPath": "images/tabbar/分类.png",
+        "selectedIconPath": "images/tabbar/分类 (1).png",
+        "pagePath": "pages/classify/classify",
+        "text": "分类"
+      },
+      {
+        "iconPath": "images/tabbar/收藏.png",
+        "selectedIconPath": "images/tabbar/收藏 (1).png",
+        "pagePath": "pages/collection/collection",
+        "text": "收藏"
+      },
+      {
+        "iconPath": "images/tabbar/个人.png",
+        "selectedIconPath": "images/tabbar/个人 (1).png",
+        "pagePath": "pages/my/my",
+        "text": "个人"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

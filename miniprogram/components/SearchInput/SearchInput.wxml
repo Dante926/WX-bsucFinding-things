@@ -1,0 +1,8 @@
+<view class="search">
+  <view class="search-input">
+    <view class="search-content">
+      <image class="search-content-text-image" src="../../images/search.png" />
+      <text class="search-content-text">搜索</text>
+    </view>
+  </view>
+</view>

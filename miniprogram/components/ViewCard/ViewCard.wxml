@@ -1,0 +1,10 @@
+<view class="lose-item">
+  <image class="lose-image" src="{{carddata.image}}" />
+  <view class="lose-content">
+    <text class="name">{{carddata.name}}</text>
+    <text class="region">{{carddata.region}}</text>
+    <text class="date">{{carddata.date}}</text>
+    <text class="desc">{{carddata.desc}}</text>
+    <text class="publish-time">{{carddata.publish_time}}</text>
+  </view>
+</view>
