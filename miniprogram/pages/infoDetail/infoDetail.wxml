@@ -31,13 +31,13 @@
 
   <!-- 联系收藏 -->
   <view class="bottom">
-    <view class="bottom-left">
+    <view class="bottom-left" bindtap="getCall">
       <image class="icon-comment" src="../../images/联系.png" />
       <text class="bottom-left-text">取得联系</text>
     </view>
 
-    <view class="bottom-right">
-      <image src="../../images/收藏.png" class="icon-collection"/>
+    <view class="bottom-right" bindtap="toCollection">
+      <image src="{{collectionIcon[0]}}" class="icon-collection" />
       <text>收藏</text>
     </view>
   </view>

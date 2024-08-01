@@ -6,6 +6,37 @@ Page({
    */
   data: {
     background: ['../../images/banner1.jpg', '../../images/banner2.jpg'],
+    collectionIcon:['../../images/收藏.png','../../images/收藏红.png']
+  },
+  getCall(){
+    const call = wx.getStorageSync('call')
+    wx.showModal({
+      title: '联系方式',
+      content: call,
+      confirmText:'复制',
+      complete: (res) => {
+        if (res.confirm) {
+          wx.setClipboardData({
+            data: call,
+            success:(res)=>{
+              wx.showToast({
+                icon:"none",
+                title:'内容已复制'
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+
+  toCollection(){
+    let collectionIcon = this.data.collectionIcon;
+    let last = collectionIcon.pop();// 将末尾元素删除存到last中
+    collectionIcon.unshift(last);
+    this.setData({
+      collectionIcon
+    })
   },
 
   /**
