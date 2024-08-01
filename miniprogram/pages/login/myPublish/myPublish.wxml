@@ -1,2 +1,6 @@
-<!--pages/login/myPublish/myPublish.wxml-->
-<text>pages/login/myPublish/myPublish.wxml</text>
+<view class="body">
+  <Tab tabList="{{tabList}}" />
+  <view class="lose-list">
+    <ViewCard wx:for="{{list}}" carddata="{{item}}" wx:key="index" />
+  </view>
+</view>

@@ -7,6 +7,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/login/myInfo/myInfo",
+          "pathName": "pages/login/myInfo/myInfo",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/my/my",
           "pathName": "pages/my/my",
           "query": "",

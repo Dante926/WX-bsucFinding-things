@@ -5,28 +5,28 @@ Page({
    * 页面的初始数据
    */
   data: {
-    login:false,
-    avatarUrl:'',
-    nickName:'',
-    cellList:[
-      {
-        url:'../../images/my/发布.png',
-        text:'我的发布',
-        page:'../login/myPublish/myPublish'
+    login: false,
+    avatarUrl: '',
+    nickName: '',
+    cellList: [{
+        url: '../../images/my/发布.png',
+        text: '我的发布',
+        page: '../login/myPublish/myPublish'
       },
       {
-        url:'../../images/my/收藏.png',
-        text:'我的收藏',
-        page:'../login/myCollection/myCollection'
+        url: '../../images/my/收藏.png',
+        text: '我的收藏',
+        page: '../login/myCollection/myCollection'
       },
       {
-        url:'../../images/my/信息.png',
-        text:'我的信息',
-        page:"../login/myInfo/myInfo"
+        url: '../../images/my/信息.png',
+        text: '我的信息',
+        page: "../login/myInfo/myInfo"
       },
       {
-        url:'../../images/my/退出.png',
-        text:'退出登入'
+        url: '../../images/my/退出.png',
+        text: '退出登入',
+
       }
     ]
   },
@@ -49,17 +49,37 @@ Page({
         wx.setStorageSync('userInfo', userInfo)
         wx.setStorageSync('login', true)
         this.setData({
-          login:true
+          login: true,
+          avatarUrl,
+          nickName
         })
       }
     })
   },
 
-  toDetail(e){
-    const {page} =e.currentTarget.dataset;
-    wx.navigateTo({
-      url:page,
-    })
+  toDetail(e) {
+    const {
+      page
+    } = e.currentTarget.dataset;
+    if (page) {
+      wx.navigateTo({
+        url: page,
+      })
+    } else {
+      wx.showModal({
+        title: '提示',
+        content: '请确认退出...',
+        complete: (res) => {
+          if (res.confirm) {
+            wx.removeStorageSync('login')
+            this.setData({
+              login:false
+            })
+          }
+        }
+      })
+    }
+
   },
 
   /**
@@ -68,15 +88,18 @@ Page({
   onLoad(options) {
     const login = wx.getStorageSync('login')
     const userInfo = wx.getStorageSync('userInfo')
-    if(userInfo){
-      const {avatarUrl,nickName} = userInfo;
+    if (userInfo) {
+      const {
+        avatarUrl,
+        nickName
+      } = userInfo;
       this.setData({
         avatarUrl,
         nickName
       })
     }
     this.setData({
-      login:!!login
+      login: !!login
     })
   },
 
