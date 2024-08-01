@@ -42,6 +42,11 @@ Page({
       select: id,
     })
   },
+  toDetail(e){
+    wx.navigateTo({
+      url: "../infoDetail/infoDetail",
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载

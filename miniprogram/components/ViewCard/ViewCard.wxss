@@ -1,6 +1,6 @@
 .body {
   /* font-size: 14px; */
-  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   /* font-weight: 600; */
   padding-bottom: 35px;
 }
@@ -62,10 +62,19 @@
 
 .lose-item .lose-image {
   margin-top: 10rpx;
-  width: 250rpx;
-  height: 250rpx;
-  min-width: 250rpx;
-  border-radius: 20rpx;
+  width: 248rpx;
+  height: 248rpx;
+  min-width: 248rpx;
+  border-radius: 10rpx;
+  transition: all 0.5s;
+  -webkit-filter: drop-shadow(10rpx 10rpx 10rpx rgba(0, 0, 0, .5));
+  /*考虑浏览器兼容性：兼容 Chrome, Safari, Opera */
+  filter: drop-shadow(5rpx 5rpx 5rpx rgba(0, 0, 0, .5));
+}
+
+.lose-item .lose-image:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(15rpx 15rpx 15rpx rgba(0, 0, 0, .5));
 }
 
 .lose-content {
@@ -78,7 +87,9 @@
   font-weight: bold;
 }
 
-.lose-content .region ,.date,.desc{
+.lose-content .region,
+.date,
+.desc {
   margin-top: 15rpx;
 }
 
@@ -93,7 +104,7 @@
   color: #666;
 }
 
-.lose-content .desc{
+.lose-content .desc {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

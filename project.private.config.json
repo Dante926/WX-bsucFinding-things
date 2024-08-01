@@ -7,6 +7,20 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/infoDetail/infoDetail",
+          "pathName": "pages/infoDetail/infoDetail",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/login/myInfo/myInfo",
           "pathName": "pages/login/myInfo/myInfo",
           "query": "",

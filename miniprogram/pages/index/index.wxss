@@ -2,7 +2,7 @@
   /* font-size: 14px; */
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   /* font-weight: 600; */
-  padding-bottom: 35px;
+  padding-bottom: 70px;
 }
 
 .banner {
