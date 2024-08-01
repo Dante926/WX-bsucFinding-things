@@ -85,7 +85,7 @@ font-size: 34rpx;
 }
 
 .cell-right .cell-right-image{
-  width: 50rpx;
-  height: 50rpx;
+  width: 30rpx;
+  height: 30rpx;
 
 }

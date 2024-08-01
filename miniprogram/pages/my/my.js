@@ -11,15 +11,18 @@ Page({
     cellList:[
       {
         url:'../../images/my/发布.png',
-        text:'我的发布'
+        text:'我的发布',
+        page:'../login/myPublish/myPublish'
       },
       {
         url:'../../images/my/收藏.png',
-        text:'我的收藏'
+        text:'我的收藏',
+        page:'../login/myCollection/myCollection'
       },
       {
         url:'../../images/my/信息.png',
-        text:'我的信息'
+        text:'我的信息',
+        page:"../login/myInfo/myInfo"
       },
       {
         url:'../../images/my/退出.png',
@@ -49,6 +52,13 @@ Page({
           login:true
         })
       }
+    })
+  },
+
+  toDetail(e){
+    const {page} =e.currentTarget.dataset;
+    wx.navigateTo({
+      url:page,
     })
   },
 

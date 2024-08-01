@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "Tab":"../../../components/Tab/Tab",
+    "ViewCard":"../../../components/ViewCard/ViewCard"
+  }
 }

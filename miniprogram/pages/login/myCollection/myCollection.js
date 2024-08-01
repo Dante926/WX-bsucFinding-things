@@ -1,12 +1,39 @@
-// pages/login/myCollection/myCollection.js
+// pages/collection/collection.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    tabList:["寻主","寻物"],
+    list:[
+      {
+        image:"../../images/banner2.jpg",
+        name:"身份证",
+        region:"东合校区",
+        date:"5月20日",
+        desc:"有没有人再食堂看到啊，有赏，请联系...",
+        publish_time:"2024-7-30 11:07"
+      },
+      {
+        image:"../../images/banner1.jpg",
+        name:"身份证",
+        region:"东合校区",
+        date:"5月20日",
+        desc:"有没有人再食堂看到啊，有赏，请联系...",
+        publish_time:"2024-7-30 11:07"
+      },
+      {
+        image:"../../images/banner2.jpg",
+        name:"身份证",
+        region:"东合校区",
+        date:"5月20日",
+        desc:"有没有人再食堂看到啊，有赏，请联系...",
+        publish_time:"2024-7-30 11:07"
+      }
+    ],
   },
+
 
   /**
    * 生命周期函数--监听页面加载
@@ -26,7 +53,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        select: 3
+      })
+    }
   },
 
   /**

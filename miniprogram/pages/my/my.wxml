@@ -15,8 +15,8 @@
 
     <view class="cell-body">
       <view class="cell-list">
-        <view class="cell" wx:for="{{cellList}}" wx:key="index">
-          <view class="cell-left" >
+        <view class="cell" wx:for="{{cellList}}" wx:key="index" bindtap="toDetail" data-page="{{item.page}}">
+          <view class="cell-left">
             <image class="cell-left-image" src="{{item.url}}" />
             <text class="cell-left-text">{{item.text}}</text>
           </view>
