@@ -1,6 +1,6 @@
 <view class="body">
   <!-- 搜索框 -->
-  <SearchInput />
+  <SearchInput bindtap="toSearch"/>
   <!-- 轮播图 -->
   <swiper indicator-dots="true" autoplay="true" interval="2000" duration="500">
     <block wx:for="{{background}}" wx:key="*this">

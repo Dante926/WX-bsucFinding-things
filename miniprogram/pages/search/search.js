@@ -1,66 +1,63 @@
-// pages/search/search.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    search: '',
+    _search: '',
+    searchLog: []
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  getSearch(e) {
+    this.setData({
+      _search: e.detail.value
+    });
+
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    this.timer = setTimeout(() => {
+      this.setData({
+        search: e.detail.value
+      });
+
+      console.log('最后一次输入:', e.detail.value);
+
+      // 从缓存中获取搜索记录
+      let searchLog = wx.getStorageSync('searchLog') || [];
+
+      // 检查新的搜索项是否已存在于缓存中
+      if (!searchLog.includes(e.detail.value)) {
+        // 如果不存在，则添加到缓存中
+        searchLog.unshift(e.detail.value);
+      }
+
+      // 更新缓存
+      wx.setStorageSync('searchLog', searchLog);
+
+      // 更新页面数据
+      this.setData({
+        searchLog,
+      });
+    }, 800);
+  },
+
+  deleteSearch() {
+    this.setData({
+      search: '',
+      _search: ''
+    });
+  },
+
+  deleteLog(){
+    this.setData({
+      searchLog:[]
+    })
+    wx.removeStorageSync('searchLog')
+  },
+
   onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    const searchLog = wx.getStorageSync('searchLog') || [];
+    this.setData({
+      searchLog,
+    });
   }
-})
+});
