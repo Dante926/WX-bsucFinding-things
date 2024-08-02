@@ -16,7 +16,8 @@ Component({
         type: 0
       },
       {
-        type: 1
+        type: 1,
+        pagePath: "pages/publish/publish",
       },
       {
         iconPath: "images/tabbar/收藏.png",
@@ -46,6 +47,10 @@ Component({
         // 常规条件下使用navigator进行跳转，组件下使用switchTab
         wx.switchTab ({
           url: '../../'+page,
+        })
+      }else{
+        wx.navigateTo({
+          url:'../../'+page,
         })
       }
     }

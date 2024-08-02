@@ -1,0 +1,71 @@
+<view class="body">
+  <view class="top">
+    <image src="../../images/退出.png" class="top-delete" bindtap="backindex"/>
+    <button class="top-btn" size="mini">发布</button>
+  </view>
+
+  <view class="container">
+    <!-- 寻物或寻主分类 -->
+    <view class="type">
+      <view class="type-item {{type === '0' ? 'type-select':''}}" bindtap="selectType" data-id="0">寻物</view>
+      <view class="type-item {{type === '1' ? 'type-select':''}}" bindtap="selectType" data-id="1">寻主</view>
+    </view>
+
+    <!-- 具体选择分类 -->
+    <view class="classify">
+      <text>物品类别:</text>
+      <picker class="picker" mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+        <view class="picker-item">
+          <view class="select" wx:if="{{select}}">
+            <!-- 分类显示 -->
+            <text>{{multiArray[0][multiIndex[0]]}}/{{multiArray[1][multiIndex[1]]}}</text>
+            <!-- 清空:为了防止冒泡重新触发 picker 使用catchtap -->
+            <image catchtap="closeSelect" class="select-icon" src="../../images/删除操作.png" />
+          </view>
+          <view class="empty" wx:else>
+            <text>请选择</text>
+            <image class="select-icon" src="../../images/下拉.png" />
+          </view>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 物品信息 -->
+    <view class="input-list">
+      <!-- 物品名称 -->
+      <text>物品名称:</text>
+      <input value="{{name}}" bindinput="getName" class="input-item" placeholder="请输入物品名称" type="text" />
+      <!-- 丢失/拾取时间 -->
+      <text>时间:</text>
+      <input value="{{date}}" bindinput="getDate" class="input-item" placeholder="请输入丢失/拾取时间 " type="text" />
+      <!-- 丢失/拾取地点 -->
+      <text>地点</text>
+      <input value="{{region}}" bindinput="getRegion" class="input-item" placeholder="请输入丢失/拾取地点 " type="text" />
+      <!-- 如何联系? -->
+      <text>联系:</text>
+      <input value="{{call}}" bindinput="getCall" class="input-item" placeholder="如何联系您?" type="text" />
+    </view>
+    <!-- 详细描述 -->
+    <view  class="desc">
+      <textarea value="{{desc}}" bindinput="getDesc" placeholder="请输入物品详细描述" id="" cols="25" rows="10"></textarea>
+      <image bindtap="clearDesc" wx:if="{{desc.length > 0}}" src="../../images/删除操作.png"  class="desc-image"/>
+    </view>
+
+    <!-- 上传图片 -->
+    <view class="upload">
+      <view class="upload-top">
+        <text>最多选择6长图片</text>
+        <text>{{imageList.length}}/6</text>
+      </view>
+      <view class="upload-list">
+        <!-- 渲染上传的图片 -->
+        <view class="img-list" wx:for="{{imageList}}" wx:key="index">
+          <image class="img-list-item" src="{{item}}" />
+          <image bindtap="deleteImg" data-index="{{index}}" src="../../images/删除操作.png"  class="delete"/>
+        </view>
+
+        <image wx:if="{{imageList.length < 6}}" bindtap="uploadImage" class="default" src="../../images/添加图片.png" />
+      </view>
+    </view>
+  </view>
+</view>

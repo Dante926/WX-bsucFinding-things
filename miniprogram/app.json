@@ -8,7 +8,8 @@
     "pages/login/myCollection/myCollection",
     "pages/login/myInfo/myInfo",
     "pages/infoDetail/infoDetail",
-    "pages/search/search"
+    "pages/search/search",
+    "pages/publish/publish"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
