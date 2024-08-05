@@ -11,7 +11,7 @@ Page({
     call: '',
     desc: '',
     imageList: [],
-    type:'',
+    type: '',
     multiArray: [
       ['证件类', '生活用品', '数码产品', '美妆护肤', '衣服物品类', '饰品', '文娱', '其他'],
       ['身份证', '校园卡', '学生证', '水卡', '公交卡'],
@@ -116,36 +116,109 @@ Page({
           tempFiles
         } = res;
 
-        tempFiles.forEach(item => {
-          imageList.unshift(item.tempFilePath)
-        })
-
-        this.setData({
-          imageList,
+        tempFiles.forEach((item, index) => {
+          wx.uploadFile({
+            url: 'http://127.0.0.1:8082/uploadImg', //仅为示例，非真实的接口地址
+            filePath: item.tempFilePath,
+            name: 'file',
+            success: (res) => {
+              const {
+                data
+              } = res
+              const reslutdata = JSON.parse(data);
+              const path = reslutdata.data[0].filename;
+              console.log(path);
+              const _path = `http://127.0.0.1:8082/${path}`
+              imageList.unshift(_path)
+              console.log(_path);
+              this.setData({
+                imageList,
+              })
+            },
+            fail: (err) => {
+              console.log(err);
+            }
+          })
+          // imageList.unshift(item.tempFilePath)
         })
       }
     })
   },
 
-  deleteImg(e){
-    const {index} = e.currentTarget.dataset;
-    const {imageList} = this.data;
-    imageList.splice(index,1)
+  deleteImg(e) {
+    const {
+      index
+    } = e.currentTarget.dataset;
+    const {
+      imageList
+    } = this.data;
+    imageList.splice(index, 1)
     this.setData({
       imageList,
     })
-   },
+  },
 
-   selectType(e){
-    const {id} = e.currentTarget.dataset;
+  selectType(e) {
+    const {
+      id
+    } = e.currentTarget.dataset;
     this.setData({
-      type:id
+      type: id
     })
-   },
+  },
 
-   backindex(){
-      wx.navigateBack()
-   },
+  backindex() {
+    wx.switchTab({
+      url: '../index/index',
+    })
+  },
+
+  toPublish() {
+    const {
+      type,
+      multiArray,
+      multiIndex,
+      name,
+      date,
+      region,
+      call,
+      desc,
+      imageList
+    } = this.data;
+    console.log(type, multiArray, multiIndex, name, date, region, call, desc, imageList);
+    wx.request({
+      url: 'http://127.0.0.1:8082/pubapi/public',
+      method: 'POST',
+      data: {
+        type: Number(type),
+        classify1: multiArray[0][multiIndex[0]],
+        classify2: multiArray[1][multiIndex[1]],
+        name,
+        date,
+        region,
+        call,
+        desc,
+        imgList: imageList,
+        time: new Date().getTime()
+      },
+      success: (res) => {
+        const {
+          data
+        } = res;
+        console.log(data);
+        /* if (data === "success") {
+          wx.switchTab({
+            url: '../index/index.wxml',
+            success:()=>{
+              wx.showToast({
+                title: '发布成功',
+              })
+            }
+          })
+        } */
+      }
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载

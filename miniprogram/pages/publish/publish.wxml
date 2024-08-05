@@ -1,7 +1,7 @@
 <view class="body">
   <view class="top">
     <image src="../../images/退出.png" class="top-delete" bindtap="backindex"/>
-    <button class="top-btn" size="mini">发布</button>
+    <button class="top-btn" size="mini" bindtap="toPublish">发布</button>
   </view>
 
   <view class="container">
@@ -33,16 +33,16 @@
     <!-- 物品信息 -->
     <view class="input-list">
       <!-- 物品名称 -->
-      <text>物品名称:</text>
+      <text class="input-list-text">物品名称:</text>
       <input value="{{name}}" bindinput="getName" class="input-item" placeholder="请输入物品名称" type="text" />
       <!-- 丢失/拾取时间 -->
-      <text>时间:</text>
+      <text class="input-list-text">时间:</text>
       <input value="{{date}}" bindinput="getDate" class="input-item" placeholder="请输入丢失/拾取时间 " type="text" />
       <!-- 丢失/拾取地点 -->
-      <text>地点</text>
+      <text class="input-list-text">地点:</text>
       <input value="{{region}}" bindinput="getRegion" class="input-item" placeholder="请输入丢失/拾取地点 " type="text" />
       <!-- 如何联系? -->
-      <text>联系:</text>
+      <text class="input-list-text">联系:</text>
       <input value="{{call}}" bindinput="getCall" class="input-item" placeholder="如何联系您?" type="text" />
     </view>
     <!-- 详细描述 -->
