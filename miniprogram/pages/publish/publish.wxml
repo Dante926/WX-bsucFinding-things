@@ -1,6 +1,6 @@
 <view class="body">
   <view class="top">
-    <image src="../../images/退出.png" class="top-delete" bindtap="backindex"/>
+    <image src="../../images/退出.png" class="top-delete" bindtap="backindex" />
     <button class="top-btn" size="mini" bindtap="toPublish">发布</button>
   </view>
 
@@ -10,6 +10,8 @@
       <view class="type-item {{type === '0' ? 'type-select':''}}" bindtap="selectType" data-id="0">寻物</view>
       <view class="type-item {{type === '1' ? 'type-select':''}}" bindtap="selectType" data-id="1">寻主</view>
     </view>
+    <!-- 表单校验 -->
+    <view class="error-tips" wx:if="{{check_type}}">请选择寻物或寻主</view>
 
     <!-- 具体选择分类 -->
     <view class="classify">
@@ -33,22 +35,37 @@
     <!-- 物品信息 -->
     <view class="input-list">
       <!-- 物品名称 -->
-      <text class="input-list-text">物品名称:</text>
-      <input value="{{name}}" bindinput="getName" class="input-item" placeholder="请输入物品名称" type="text" />
+      <view class="input-item">
+        <text class="input-list-text">物品名称:</text>
+        <input value="{{name}}" bindinput="getName" placeholder="请输入物品名称" type="text" />
+        <view wx:if="{{check_name}}" class="error-tips">请输入少于20字得物品名称</view>
+      </view>
       <!-- 丢失/拾取时间 -->
-      <text class="input-list-text">时间:</text>
-      <input value="{{date}}" bindinput="getDate" class="input-item" placeholder="请输入丢失/拾取时间 " type="text" />
+      <view class="input-item">
+        <text class="input-list-text">时间:</text>
+        <input value="{{date}}" bindinput="getDate" placeholder="请输入丢失/拾取时间 " type="text" />
+        <view class="error-tips" wx:if="{{check_date}}">请输入少于20字的时间点</view>
+      </view>
       <!-- 丢失/拾取地点 -->
-      <text class="input-list-text">地点:</text>
-      <input value="{{region}}" bindinput="getRegion" class="input-item" placeholder="请输入丢失/拾取地点 " type="text" />
+      <view class="input-item">
+        <text class="input-list-text">地点:</text>
+        <input value="{{region}}" bindinput="getRegion" placeholder="请输入丢失/拾取地点 " type="text" />
+        <view  wx:if="{{check_region}}" class="error-tips">请输入点的：东合校区或澄碧校区</view>
+      </view>
       <!-- 如何联系? -->
-      <text class="input-list-text">联系:</text>
-      <input value="{{call}}" bindinput="getCall" class="input-item" placeholder="如何联系您?" type="text" />
+      <view class="input-item">
+        <text class="input-list-text">联系:</text>
+        <input value="{{call}}" bindinput="getCall"  placeholder="如何联系您?" type="text" />
+        <view  wx:if="{{check_call}}" class="error-tips">请输入联系方式电话或微信或QQ</view>
+      </view>
     </view>
     <!-- 详细描述 -->
-    <view  class="desc">
+    <view class="desc">
       <textarea value="{{desc}}" bindinput="getDesc" placeholder="请输入物品详细描述" id="" cols="25" rows="10"></textarea>
-      <image bindtap="clearDesc" wx:if="{{desc.length > 0}}" src="../../images/删除操作.png"  class="desc-image"/>
+      <image bindtap="clearDesc" wx:if="{{desc.length > 0}}" src="../../images/删除操作.png" class="desc-image" />
+    </view>
+    <view wx:if="{{check_desc}}" class="error-tips">
+    请输入详细描述
     </view>
 
     <!-- 上传图片 -->
@@ -61,10 +78,13 @@
         <!-- 渲染上传的图片 -->
         <view class="img-list" wx:for="{{imageList}}" wx:key="index">
           <image class="img-list-item" src="{{item}}" />
-          <image bindtap="deleteImg" data-index="{{index}}" src="../../images/删除操作.png"  class="delete"/>
+          <image bindtap="deleteImg" data-index="{{index}}" src="../../images/删除操作.png" class="delete" />
         </view>
 
         <image wx:if="{{imageList.length < 6}}" bindtap="uploadImage" class="default" src="../../images/添加图片.png" />
+      </view>
+      <view wx:if="{{check_img}}" class="error-tips">
+        请上传至少一张图片
       </view>
     </view>
   </view>

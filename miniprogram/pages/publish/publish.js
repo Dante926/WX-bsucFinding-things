@@ -12,6 +12,7 @@ Page({
     desc: '',
     imageList: [],
     type: '',
+    date: '',
     multiArray: [
       ['证件类', '生活用品', '数码产品', '美妆护肤', '衣服物品类', '饰品', '文娱', '其他'],
       ['身份证', '校园卡', '学生证', '水卡', '公交卡'],
@@ -28,6 +29,13 @@ Page({
       ['药品', '零食', '周边', '其他']
     ],
     multiIndex: [0, 0, 0],
+    check_type: false,
+    check_name: false,
+    check_data: false,
+    check_region: false,
+    check_call: false,
+    check_desc:false,
+    check_img:false
   },
 
   bindMultiPickerChange(e) {
@@ -69,31 +77,36 @@ Page({
 
   getName(e) {
     this.setData({
-      name: e.detail.value
+      name: e.detail.value,
+      check_name:false
     })
   },
 
   getDate(e) {
     this.setData({
-      date: e.detail.value
+      date: e.detail.value,
+      check_date:false
     })
   },
 
   getRegion(e) {
     this.setData({
-      region: e.detail.value
+      region: e.detail.value,
+      check_region:false
     })
   },
 
   getCall(e) {
     this.setData({
-      call: e.detail.value
+      call: e.detail.value,
+      check_call:false
     })
   },
 
   getDesc(e) {
     this.setData({
-      desc: e.detail.value
+      desc: e.detail.value,
+      check_desc:false
     })
   },
 
@@ -122,6 +135,9 @@ Page({
             filePath: item.tempFilePath,
             name: 'file',
             success: (res) => {
+              this.setData({
+                check_img:false
+              })
               const {
                 data
               } = res
@@ -163,7 +179,8 @@ Page({
       id
     } = e.currentTarget.dataset;
     this.setData({
-      type: id
+      type: id,
+      check_type:false
     })
   },
 
@@ -185,6 +202,54 @@ Page({
       desc,
       imageList
     } = this.data;
+
+    if (!type) {
+      this.setData({
+        check_type: true
+      })
+    }
+
+    if (!name) {
+      this.setData({
+        check_name: true
+      })
+    }
+
+    if (!date) {
+      this.setData({
+        check_date: true
+      })
+    }
+
+    if (!region) {
+      this.setData({
+        check_region: true
+      })
+    }
+
+    if (!call) {
+      this.setData({
+        check_call: true
+      })
+    }
+
+    if (!desc) {
+      this.setData({
+        check_desc: true
+      })
+    }
+
+    if(imageList.length === 0){
+      this.setData({
+        check_img:true
+      })
+    }
+
+    if (!type || !name || !date || !region || !call || !desc) {
+      return wx.showToast({
+        title: '未填项必须填写...'
+      })
+    }
     console.log(type, multiArray, multiIndex, name, date, region, call, desc, imageList);
     wx.request({
       url: 'http://127.0.0.1:8082/pubapi/public',
