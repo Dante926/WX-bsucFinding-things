@@ -243,12 +243,11 @@ Page({
       })
     }
 
-    if (!type || !name || !date || !region || !call || !desc) {
+    if (!type || !name || !date || !region || !call || !desc ||imageList.length === 0) {
       return wx.showToast({
         title: '未填项必须填写...'
       })
     }
-    console.log(type, multiArray, multiIndex, name, date, region, call, desc, imageList);
     wx.request({
       url: 'http://127.0.0.1:8082/pubapi/public',
       method: 'POST',
@@ -268,17 +267,16 @@ Page({
         const {
           data
         } = res;
-        console.log(data);
-        /* if (data === "success") {
+        if (data.message === "Success"){
           wx.switchTab({
-            url: '../index/index.wxml',
+            url: '../index/index',
             success:()=>{
               wx.showToast({
                 title: '发布成功',
               })
             }
           })
-        } */
+        }
       }
     })
   },

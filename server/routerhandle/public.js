@@ -16,7 +16,7 @@ const public_handle={
             }else{
                 return res.send({
                     status:200,
-                    message:'发布成功..',
+                    message:'Success',
                     data:result
                 })
             }
