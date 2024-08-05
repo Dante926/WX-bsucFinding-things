@@ -37,9 +37,6 @@ app.post('/uploadImg',uploads.array('file',6),(req,res)=>{
 //发布模块路由
 const publicRouter = require('./router/public')
 app.use('/pubapi',publicRouter)
-// app.get('/hello', (req, res) => {
-//     res.send('Hello World!')
-// })
 
 app.listen(8082, () => {
     console.log('Server is running http://127.0.0.1:8082')

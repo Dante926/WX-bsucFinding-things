@@ -7,7 +7,7 @@ const public_handle={
         console.log(req.body);
         // 将数据存储到数据库closeSchema中
         const sqlStr = 'INSERT INTO loseschema (type,classify1,classify2,name,date,region,`call`,`desc`,imgList,time) VALUES (?,?,?,?,?,?,?,?,?,?)'
-        db.query(sqlStr,[type,classify1,classify2,name,date,region,call,desc,imgList,time],(err,result)=>{
+        db.query(sqlStr,[type,classify1,classify2,name,date,region,call,desc,JSON.stringify(imgList),time],(err,result)=>{
             if(err){
                 return res.send({
                     status:401,

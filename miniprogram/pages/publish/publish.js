@@ -117,48 +117,46 @@ Page({
   },
 
   uploadImage() {
-    let {
-      imageList
-    } = this.data
+    let { imageList } = this.data;
     wx.chooseMedia({
       count: 6 - imageList.length,
       mediaType: ['image', 'video'],
       sourceType: ['album', 'camera'],
       success: (res) => {
-        const {
-          tempFiles
-        } = res;
-
-        tempFiles.forEach((item, index) => {
-          wx.uploadFile({
-            url: 'http://127.0.0.1:8082/uploadImg', //仅为示例，非真实的接口地址
-            filePath: item.tempFilePath,
-            name: 'file',
-            success: (res) => {
-              this.setData({
-                check_img:false
-              })
-              const {
-                data
-              } = res
-              const reslutdata = JSON.parse(data);
-              const path = reslutdata.data[0].filename;
-              console.log(path);
-              const _path = `http://127.0.0.1:8082/${path}`
-              imageList.unshift(_path)
-              console.log(_path);
-              this.setData({
-                imageList,
-              })
-            },
-            fail: (err) => {
-              console.log(err);
-            }
-          })
-          // imageList.unshift(item.tempFilePath)
-        })
+        const { tempFiles } = res;
+        const uploadPromises = tempFiles.map((item) => {
+          return new Promise((resolve, reject) => {
+            wx.uploadFile({
+              url: 'http://127.0.0.1:8082/uploadImg',
+              filePath: item.tempFilePath,
+              name: 'file',
+              success: (res) => {
+                resolve(res);
+              },
+              fail: (err) => {
+                reject(err);
+              }
+            });
+          });
+        });
+  
+        Promise.all(uploadPromises).then((responses) => {
+          responses.forEach((response) => {
+            const { data } = response;
+            const resultData = JSON.parse(data);
+            const path = resultData.data[0].filename;
+            const _path = `http://127.0.0.1:8082/${path}`;
+            imageList.unshift(_path);
+          });
+          this.setData({
+            imageList,
+            check_img: false
+          });
+        }).catch((error) => {
+          console.error('上传失败:', error);
+        });
       }
-    })
+    });
   },
 
   deleteImg(e) {
