@@ -11,10 +11,10 @@
   </swiper>
 
   <!-- 导航 -->
-  <Tab tabList="{{tabList}}" />
+  <Tab bindgettab="getTab" tabList="{{tabList}}" />
 
   <!-- 内容 -->
   <view class="lose">
-      <ViewCard wx:for="{{list}}" wx:key="index" carddata="{{item}}" bindtap="toDetail"/>
+      <ViewCard wx:for="{{list}}" wx:key="index" carddata="{{item}}" bindtap="toDetail"/> 
   </view>
 </view>

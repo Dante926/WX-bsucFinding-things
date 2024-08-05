@@ -7,8 +7,8 @@
   <view class="container">
     <!-- 寻物或寻主分类 -->
     <view class="type">
-      <view class="type-item {{type === '0' ? 'type-select':''}}" bindtap="selectType" data-id="0">寻物</view>
-      <view class="type-item {{type === '1' ? 'type-select':''}}" bindtap="selectType" data-id="1">寻主</view>
+      <view class="type-item {{type === '0' ? 'type-select':''}}" bindtap="selectType" data-id="0">寻主</view>
+      <view class="type-item {{type === '1' ? 'type-select':''}}" bindtap="selectType" data-id="1">寻物</view>
     </view>
     <!-- 表单校验 -->
     <view class="error-tips" wx:if="{{check_type}}">请选择寻物或寻主</view>

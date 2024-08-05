@@ -245,7 +245,8 @@ Page({
 
     if (!type || !name || !date || !region || !call || !desc ||imageList.length === 0) {
       return wx.showToast({
-        title: '未填项必须填写...'
+        title: '未填项必须填写...',
+        icon:'error'
       })
     }
     wx.request({

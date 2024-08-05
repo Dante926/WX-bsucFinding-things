@@ -34,9 +34,13 @@ app.post('/uploadImg',uploads.array('file',6),(req,res)=>{
     })
 })
 
-//发布模块路由
+// 发布模块路由
 const publicRouter = require('./router/public')
 app.use('/pubapi',publicRouter)
+
+// 获取数据模块
+const getDataRouter = require('./router/getdata')
+app.use('/getapi',getDataRouter)   
 
 app.listen(8082, () => {
     console.log('Server is running http://127.0.0.1:8082')

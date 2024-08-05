@@ -13,6 +13,7 @@ Component({
       this.setData({
         select: id,
       })
+      this.triggerEvent('gettab',id);
     }
   }
 })

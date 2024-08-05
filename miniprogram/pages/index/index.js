@@ -1,64 +1,78 @@
+// import { it } from 'element-plus/es/locale';
+import {
+  formatTime
+} from '../../utils/time';
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    background: ['../../images/banner1.jpg', '../../images/banner2.jpg'],
+    background: ['../../images/失物招领封面1.png', '../../images/失物招领封面2.png'],
     tabList: ["寻主", "寻物"],
     select: 0,
-    list:[
-      {
-        image:"../../images/banner2.jpg",
-        name:"身份证",
-        region:"东合校区",
-        date:"5月20日",
-        desc:"有没有人再食堂看到啊，有赏，请联系...",
-        publish_time:"2024-7-30 11:07"
-      },
-      {
-        image:"../../images/banner1.jpg",
-        name:"身份证",
-        region:"东合校区",
-        date:"5月20日",
-        desc:"有没有人再食堂看到啊，有赏，请联系...",
-        publish_time:"2024-7-30 11:07"
-      },
-      {
-        image:"../../images/banner2.jpg",
-        name:"身份证",
-        region:"东合校区",
-        date:"5月20日",
-        desc:"有没有人再食堂看到啊，有赏，请联系...",
-        publish_time:"2024-7-30 11:07"
-      }
-    ],
+    list: [],
   },
-  selectTab(e) {
-    const {
-      id
-    } = e.currentTarget.dataset;
-    this.setData({
-      select: id,
-    })
-  },
-  toDetail(e){
+
+  toDetail(e) {
     wx.navigateTo({
       url: "../infoDetail/infoDetail",
     })
   },
-  toSearch(){
+
+  toSearch() {
     wx.navigateTo({
       url: '../search/search',
     })
   },
-
+  getTab(e) {
+    console.log(e.detail);
+    this.setData({
+      select: e.detail
+    })
+    this.onLoad();
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 添加调试输出语句
-    // console.log('Background images:', this.data.background);
+    const {
+      select
+    } = this.data;
+    wx.request({
+      url: 'http://127.0.0.1:8082/getapi/getdata',
+      method: 'POST',
+      data: {
+        type: select,
+      },
+      success: (res) => {
+        const {
+          data
+        } = res;
+        // 确认 data.data 是一个对象数组，且包含 imgList 属性 将imgList字符串转变为正在的数组
+        const modifiedData = data.data.map(item => ({
+          ...item,
+          imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
+        }));
+        this.setData({
+          list: modifiedData.map(item => {
+            return {
+              ...item,
+              time: formatTime(item.time)
+            }
+          })
+          /* 
+          map高阶函数，用于遍历数组中的每个item通过自己的方法将item中的某个值或者item本身处理后重新传入item中 
+          
+          这里的意义为，modifiedData中每个item的time都被处理了一遍
+          */
+        });
+      },
+      fail: (error) => {
+        console.error('Request failed:', error);
+      }
+    });
   },
 
   /**
