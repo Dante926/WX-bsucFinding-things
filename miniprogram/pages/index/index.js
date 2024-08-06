@@ -16,7 +16,9 @@ Page({
   },
 
   toDetail(e) {
-    const {info} = e.currentTarget.dataset;
+    const {
+      info
+    } = e.currentTarget.dataset;
     wx.navigateTo({
       url: `../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
     })
@@ -50,7 +52,7 @@ Page({
         const {
           data
         } = res;
-        // 确认 data.data 是一个对象数组，且包含 imgList 属性 将imgList字符串转变为正在的数组
+        // 确认 data.data 是一个对象数组，且包含 imgList 属性 将imgList字符串转变为真正的数组
         const modifiedData = data.data.map(item => ({
           ...item,
           imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号

@@ -7,6 +7,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/collection/collection",
+          "pathName": "pages/collection/collection",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/infoDetail/infoDetail",
           "pathName": "pages/infoDetail/infoDetail",
           "query": "info=%7B%22_id%22%3A24%2C%22classify1%22%3A%22%E8%AF%81%E4%BB%B6%E7%B1%BB%22%2C%22classify2%22%3A%22%E8%BA%AB%E4%BB%BD%E8%AF%81%22%2C%22date%22%3A%222024%2F8%2F5%2015%EF%BC%9A14%22%2C%22desc%22%3A%22%E4%B8%80%E4%B8%AA%E7%88%B1%E5%9D%A4%E8%BA%AB%E4%BB%BD%E8%AF%81%22%2C%22imgList%22%3A%5B%22http%3A%2F%2F127.0.0.1%3A8082%2Fe07438cc-b8c0-4117-b444-a911df1f1c17.jpg%22%5D%2C%22name%22%3A%22%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE1%20%E5%AF%BB%E4%B8%BB%20%E8%BA%AB%E4%BB%BD%E8%AF%81%22%2C%22call%22%3A%22qq%EF%BC%9A2802471732%22%2C%22region%22%3A%22%E4%B8%9C%E5%90%88%E6%A0%A1%E5%8C%BA%20%E7%BB%BC%E5%90%88%E6%A5%BC%22%2C%22time%22%3A%222024%2F8%2F5%2015%3A15%22%2C%22type%22%3A%220%22%7D",

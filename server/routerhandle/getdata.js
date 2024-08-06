@@ -82,6 +82,27 @@ const public_handle = {
                 })
             }
         })
+    },
+
+    getcoldata:(req,res)=>{
+        console.log(req.body);
+        const {openid,type} = req.body;
+        // 通过openid和type字段查询数据
+        const sqlStr = 'SELECT * FROM collection WHERE openid=? AND type=?'
+        db.query(sqlStr,[openid,type],(err,result)=>{
+            if(err){
+                return res.send({
+                    status:401,
+                    message:'查询失败:'+err.message
+                })
+            }else{
+                return res.send({
+                    status:200,
+                    message:'Success',
+                    data:result
+                })
+            }
+        })
     }
 }
 

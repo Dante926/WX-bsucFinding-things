@@ -11,5 +11,7 @@ router.post('/pushcol',public_handle.pushcol)
 router.post('/getcol',public_handle.getcol)
 // 删除收藏
 router.post('/delcol',public_handle.delcol)
+// 获取收藏夹数据
+router.post('/getcoldata',public_handle.getcoldata)
 
 module.exports = router
