@@ -51,6 +51,37 @@ const public_handle = {
                 }
             })
         }
+    },
+
+    delcol: (req, res) => {
+        const { id, openid } = req.body;
+        // 去数据库查询是否有拥有id和openid的数据
+        const sqlStr = 'SELECT * FROM collection WHERE id=? AND openid=?'
+        db.query(sqlStr, [id, openid], (err, result) => {
+            // 如果有则删除
+            if (result.length > 0) {
+                const sqlStr = 'DELETE FROM collection WHERE id=? AND openid=?'
+                db.query(sqlStr, [id, openid], (err, result) => {
+                    if (err) {
+                        return res.send({
+                            status: 401,
+                            message: '删除失败:' + err.message
+                        })
+                    } else {
+                        return res.send({
+                            status: 200,
+                            message: 'Success',
+                        })
+                    }
+                })
+            } else {
+                // 不存在纪录 取消收藏失败
+                return res.send({
+                    status: 401,
+                    message: '取消收藏失败'
+                })
+            }
+        })
     }
 }
 

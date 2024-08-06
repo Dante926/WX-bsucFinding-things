@@ -8,6 +8,8 @@ Page({
     background: ['../../images/banner1.jpg', '../../images/banner2.jpg'],
     collectionIcon: ['../../images/收藏.png', '../../images/收藏红.png'],
   },
+
+  //获得联系功能
   getCall() {
     wx.showModal({
       title: '联系方式',
@@ -29,6 +31,7 @@ Page({
     })
   },
 
+  // 收藏功能
   toCollection() {
     const info = this.data.info
     let collectionIcon = this.data.collectionIcon;
@@ -54,7 +57,6 @@ Page({
       } = info
 
       const openid = wx.getStorageSync('openid')
-      console.log(openid);
       wx.request({
         url: 'http://127.0.0.1:8082/getapi/pushcol',
         method: "POST",
@@ -84,6 +86,24 @@ Page({
       })
     } else {
       // 取消收藏
+      const {
+        _id,
+      } = info;
+      const openid = wx.getStorageSync('openid');
+      wx.request({
+        url: 'http://127.0.0.1:8082/getapi/delcol',
+        method:'POST',
+        data: {
+          id: _id,
+          openid,
+        },
+        success:(res)=>{
+          wx.showToast({
+            title: '取消收藏',
+            icon: 'success'
+          })
+        }
+      })
     }
   },
 
@@ -99,6 +119,8 @@ Page({
     this.setData({
       info: JSON.parse(info)
     })
+
+    // 查询是否有收藏标记
     wx.request({
       url: 'http://127.0.0.1:8082/getapi/getcol',
       method: 'POST',
@@ -107,7 +129,16 @@ Page({
         openid,
       },
       success: (res) => {
-        console.log(res);
+        let collectionIcon = this.data.collectionIcon;
+
+        // 如果有收藏标记
+        if (res.data.message == 'Bookmarked') {
+          let last = collectionIcon.pop(); // 将末尾元素删除存到last中
+          collectionIcon.unshift(last);
+          this.setData({
+            collectionIcon
+          })
+        }
       }
     })
   },

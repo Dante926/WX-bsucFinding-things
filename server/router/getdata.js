@@ -9,5 +9,7 @@ router.post('/getdata',public_handle.getdata)
 router.post('/pushcol',public_handle.pushcol)
 // 获取是否被收藏纪录
 router.post('/getcol',public_handle.getcol)
+// 删除收藏
+router.post('/delcol',public_handle.delcol)
 
 module.exports = router
