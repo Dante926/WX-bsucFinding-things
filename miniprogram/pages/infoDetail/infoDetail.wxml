@@ -1,7 +1,7 @@
 <view class="body">
   <!-- 轮播图 -->
   <swiper class="banner" indicator-dots="true" autoplay="true" interval="2000" duration="500">
-    <block wx:for="{{background}}" wx:key="*this">
+    <block wx:for="{{info.imgList}}" wx:key="*this">
       <swiper-item>
         <image class="banner-image" src="{{item}}" />
       </swiper-item>
@@ -9,24 +9,24 @@
   </swiper>
 
   <!-- 物品名称 -->
-  <view class="name">一个女朋友</view>
+  <view class="name">{{info.name}}</view>
 
   <!-- 详细信息 -->
   <view class="container">
     <view class="date item">
       <text class="label">拾到时间</text>
-      <text>4月25日</text>
+      <text>{{info.date}}</text>
     </view>
     <view class="region item">
       <text class="label">拾到地点</text>
-      <text>澄碧校区</text>
+      <text>{{info.region}}</text>
     </view>
   </view>
 
   <!-- 描述信息 -->
   <view class="desc item">
     <view class="desc-text1">详细描述：</view>
-    <view class="desc-text2">如图所示</view>
+    <view class="desc-text2">{{info.desc}}</view>
   </view>
 
   <!-- 联系收藏 -->

@@ -35,7 +35,34 @@ Page({
     wx.getUserProfile({
       desc: '获取用户信息',
       success: (res) => {
-        console.log(res);
+        // 获取用户code 用于获取openid用作用户的唯一标识
+        const openid = wx.getStorageSync('openid')
+        if (!openid) {
+          wx.login({
+            success: (res) => {
+              const {
+                code
+              } = res
+              console.log(code);
+              if (res.code) {
+                wx.request({
+                  url: 'http://127.0.0.1:8082/login',
+                  data: {
+                    code,
+                  },
+                  success: (res) => {
+                    console.log(res.data.data);
+                    const {
+                      openid
+                    } = res.data.data
+                    console.log(openid);
+                    wx.setStorageSync('openid', openid)
+                  }
+                })
+              }
+            },
+          })
+        }
         const {
           userInfo: {
             avatarUrl,
@@ -73,7 +100,7 @@ Page({
           if (res.confirm) {
             wx.removeStorageSync('login')
             this.setData({
-              login:false
+              login: false
             })
           }
         }

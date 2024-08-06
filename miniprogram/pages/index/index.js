@@ -16,8 +16,9 @@ Page({
   },
 
   toDetail(e) {
+    const {info} = e.currentTarget.dataset;
     wx.navigateTo({
-      url: "../infoDetail/infoDetail",
+      url: `../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
     })
   },
 
@@ -27,7 +28,6 @@ Page({
     })
   },
   getTab(e) {
-    console.log(e.detail);
     this.setData({
       select: e.detail
     })

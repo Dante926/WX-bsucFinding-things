@@ -38,6 +38,7 @@
   font-size: 36rpx;
   padding-top: 10rpx;
   display: flex;
+  flex-wrap: wrap; /* 如果内容超过一行，允许换行 */
 }
 
 .bottom{
@@ -81,4 +82,10 @@
 
 .bottom-left-text{
   font-size: 36rpx;
+}
+
+
+.desc-text1 {
+  display: block; /* 或者 display: inline-block; */
+  width: 100%;
 }

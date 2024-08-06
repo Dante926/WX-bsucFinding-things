@@ -91,6 +91,9 @@
 .date,
 .desc {
   margin-top: 15rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .lose-content {

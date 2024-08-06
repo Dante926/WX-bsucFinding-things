@@ -15,6 +15,6 @@
 
   <!-- 内容 -->
   <view class="lose">
-      <ViewCard wx:for="{{list}}" wx:key="index" carddata="{{item}}" bindtap="toDetail"/> 
+      <ViewCard wx:for="{{list}}" wx:key="index" carddata="{{item}}" bindtap="toDetail" data-info="{{item}}" /> 
   </view>
 </view>
