@@ -11,7 +11,9 @@ Page({
 
   //获得联系功能
   getCall() {
-    const {call} = this.data.info
+    const {
+      call
+    } = this.data.info
     wx.showModal({
       title: '联系方式',
       content: call,
@@ -93,12 +95,12 @@ Page({
       const openid = wx.getStorageSync('openid');
       wx.request({
         url: 'http://127.0.0.1:8082/getapi/delcol',
-        method:'POST',
+        method: 'POST',
         data: {
           id: _id,
           openid,
         },
-        success:(res)=>{
+        success: (res) => {
           wx.showToast({
             title: '取消收藏',
             icon: 'success'
@@ -115,18 +117,28 @@ Page({
     const {
       info
     } = options;
-    const parsedInfo = JSON.parse(info); // 将 JSON 字符串解析为 JavaScript 对象
-    const openid = wx.getStorageSync('openid')
-    this.setData({
-      info: JSON.parse(info)
-    })
+    let parsedInfo = JSON.parse(info); // 将 JSON 字符串解析为 JavaScript 对象
+    // 如果imgList是字符串则转变为真正的数组
+    if (typeof parsedInfo.imgList === 'string') {
+      parsedInfo.imgList = JSON.parse(parsedInfo.imgList); // 将字符串解析为数组
+      // 将更新后的 parsedInfo 存回 info 中并更新页面数据
+      this.setData({
+        info: parsedInfo
+      });
+    }else{
+      this.setData({
+        info: parsedInfo
+      });
+    }
+
+    const openid = wx.getStorageSync('openid');
 
     // 查询是否有收藏标记
     wx.request({
       url: 'http://127.0.0.1:8082/getapi/getcol',
       method: 'POST',
       data: {
-        id: parsedInfo._id?parsedInfo._id:parsedInfo.id,
+        id: parsedInfo._id ? parsedInfo._id : parsedInfo.id,
         openid,
       },
       success: (res) => {
@@ -138,11 +150,12 @@ Page({
           collectionIcon.unshift(last);
           this.setData({
             collectionIcon
-          })
+          });
         }
       }
-    })
+    });
   },
+
 
   /**
    * 生命周期函数--监听页面初次渲染完成

@@ -34,8 +34,8 @@ Page({
     check_data: false,
     check_region: false,
     check_call: false,
-    check_desc:false,
-    check_img:false
+    check_desc: false,
+    check_img: false
   },
 
   bindMultiPickerChange(e) {
@@ -78,35 +78,35 @@ Page({
   getName(e) {
     this.setData({
       name: e.detail.value,
-      check_name:false
+      check_name: false
     })
   },
 
   getDate(e) {
     this.setData({
       date: e.detail.value,
-      check_date:false
+      check_date: false
     })
   },
 
   getRegion(e) {
     this.setData({
       region: e.detail.value,
-      check_region:false
+      check_region: false
     })
   },
 
   getCall(e) {
     this.setData({
       call: e.detail.value,
-      check_call:false
+      check_call: false
     })
   },
 
   getDesc(e) {
     this.setData({
       desc: e.detail.value,
-      check_desc:false
+      check_desc: false
     })
   },
 
@@ -117,13 +117,17 @@ Page({
   },
 
   uploadImage() {
-    let { imageList } = this.data;
+    let {
+      imageList
+    } = this.data;
     wx.chooseMedia({
       count: 6 - imageList.length,
       mediaType: ['image', 'video'],
       sourceType: ['album', 'camera'],
       success: (res) => {
-        const { tempFiles } = res;
+        const {
+          tempFiles
+        } = res;
         const uploadPromises = tempFiles.map((item) => {
           return new Promise((resolve, reject) => {
             wx.uploadFile({
@@ -139,10 +143,12 @@ Page({
             });
           });
         });
-  
+
         Promise.all(uploadPromises).then((responses) => {
           responses.forEach((response) => {
-            const { data } = response;
+            const {
+              data
+            } = response;
             const resultData = JSON.parse(data);
             const path = resultData.data[0].filename;
             const _path = `http://127.0.0.1:8082/${path}`;
@@ -178,7 +184,7 @@ Page({
     } = e.currentTarget.dataset;
     this.setData({
       type: id,
-      check_type:false
+      check_type: false
     })
   },
 
@@ -202,7 +208,6 @@ Page({
     } = this.data;
 
     const openid = wx.getStorageSync('openid')
-    console.log(openid);
 
     if (!type) {
       this.setData({
@@ -240,16 +245,16 @@ Page({
       })
     }
 
-    if(imageList.length === 0){
+    if (imageList.length === 0) {
       this.setData({
-        check_img:true
+        check_img: true
       })
     }
 
-    if (!type || !name || !date || !region || !call || !desc ||imageList.length === 0) {
+    if (!type || !name || !date || !region || !call || !desc || imageList.length === 0) {
       return wx.showToast({
         title: '未填项必须填写...',
-        icon:'error'
+        icon: 'error'
       })
     }
     wx.request({
@@ -272,10 +277,10 @@ Page({
         const {
           data
         } = res;
-        if (data.message === "Success"){
+        if (data.message === "Success") {
           wx.switchTab({
             url: '../index/index',
-            success:()=>{
+            success: () => {
               wx.showToast({
                 title: '发布成功',
               })

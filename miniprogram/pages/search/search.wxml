@@ -14,23 +14,13 @@
     </view>
 
     <view class="log-list">
-      <view class="log-item" wx:for="{{searchLog}}" wx:key="index">{{item}}</view>
+      <view bindtap="logsearch" data-info="{{item}}" class="log-item" wx:for="{{searchLog}}" wx:key="index">{{item}}</view>
     </view>
   </view>
 
   <view class="result-search" wx:else>
-    <view class="search-item">
-      <text class="search-item-text">身份证</text>
-      <image class="search-right" src="../../images/大于号.png" />
-    </view>
-
-    <view class="search-item">
-      <text class="search-item-text">身份证</text>
-      <image class="search-right" src="../../images/大于号.png" />
-    </view>
-
-    <view class="search-item">
-      <text class="search-item-text">身份证</text>
+    <view class="search-item" wx:for="{{searchRes}}" wx:key="index" bindtap="toDetail" data-info="{{item}}">
+      <text class="search-item-text">{{item.name}}</text>
       <image class="search-right" src="../../images/大于号.png" />
     </view>
   </view>

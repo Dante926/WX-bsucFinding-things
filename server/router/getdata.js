@@ -15,5 +15,7 @@ router.post('/delcol',public_handle.delcol)
 router.post('/getcoldata',public_handle.getcoldata)
 // 通过二级分类获取数据
 router.post('/getclatwo',public_handle.getclatwo)
+// 搜索框模糊查询数据
+router.post('/getsearch',public_handle.getsearch)
 
 module.exports = router

@@ -1,33 +1,50 @@
+import {
+  ajax
+} from '../../utils/index';
+
 Page({
   data: {
     search: '',
     _search: '',
-    searchLog: []
+    searchLog: [],
+    searchRes: [],
+  },
+
+  logsearch(e) {
+    // console.log(e.currentTarget.dataset);
+    const {
+      info
+    } = e.currentTarget.dataset;
+    console.log(info);
+    this.getSearch(info)
   },
 
   getSearch(e) {
+    // 更新 _search
     this.setData({
-      _search: e.detail.value
+      _search: e.detail ? e.detail.value : e
     });
 
+    // 清空计时器
     if (this.timer) {
       clearTimeout(this.timer);
     }
 
     this.timer = setTimeout(() => {
+      // 更新 search
       this.setData({
-        search: e.detail.value
+        search: e.detail ? e.detail.value : e
       });
 
-      console.log('最后一次输入:', e.detail.value);
+      console.log('最后一次输入:', e.detail ? e.detail.value : e);
 
       // 从缓存中获取搜索记录
       let searchLog = wx.getStorageSync('searchLog') || [];
 
       // 检查新的搜索项是否已存在于缓存中
-      if (!searchLog.includes(e.detail.value)) {
+      if (!searchLog.includes(e.detail ? e.detail.value : e)) {
         // 如果不存在，则添加到缓存中
-        searchLog.unshift(e.detail.value);
+        searchLog.unshift(e.detail ? e.detail.value : e);
       }
 
       // 更新缓存
@@ -37,6 +54,22 @@ Page({
       this.setData({
         searchLog,
       });
+
+      // 发起后端请求
+      const params = {
+        name: e.detail ? e.detail.value : e
+      };
+      ajax('/getapi/getsearch', 'post', params)
+        .then(result => {
+          const { data } = result.data;
+          this.setData({
+            searchRes: data
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching search results:', error);
+        });
+
     }, 800);
   },
 
@@ -47,11 +80,20 @@ Page({
     });
   },
 
-  deleteLog(){
+  deleteLog() {
     this.setData({
-      searchLog:[]
+      searchLog: []
     })
     wx.removeStorageSync('searchLog')
+  },
+
+  toDetail(e) {
+    const {
+      info
+    } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: `../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
+    })
   },
 
   onLoad(options) {

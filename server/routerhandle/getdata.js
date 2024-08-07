@@ -107,7 +107,6 @@ const public_handle = {
 
     getclatwo: (req, res) => {
         const { type, classifytwo } = req.body;
-        console.log(type, classifytwo);
         // 根据分类和二级分类获取数据
         const sqlStr = 'select * from loseSchema where type = ? and classify2 = ?'
         db.query(sqlStr, [type, classifytwo], (err, result) => {
@@ -120,6 +119,27 @@ const public_handle = {
             return res.send({
                 status: 200,
                 message: '获取数据成功',
+                data: result
+            })
+        })
+    },
+
+    getsearch: (req, res) => {
+        const { name } = req.body;
+        // console.log(name);
+        // const _name = new RegExp(name, 'i'); // 忽略大小写
+        const sqlStr = `SELECT * FROM loseSchema WHERE name LIKE ?`
+        db.query(sqlStr, [`%${name}%`], (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.send({
+                    status: 500,
+                    message: '获取数据失败'
+                })
+            }
+            return res.send({
+                status: 200,
+                message: 'Success',
                 data: result
             })
         })

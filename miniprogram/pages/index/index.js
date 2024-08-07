@@ -43,7 +43,7 @@ Page({
     const {
       select
     } = this.data;
-    
+
     wx.request({
       url: 'http://127.0.0.1:8082/getapi/getdata',
       method: 'POST',
