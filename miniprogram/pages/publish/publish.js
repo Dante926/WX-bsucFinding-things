@@ -201,6 +201,9 @@ Page({
       imageList
     } = this.data;
 
+    const openid = wx.getStorageSync('openid')
+    console.log(openid);
+
     if (!type) {
       this.setData({
         check_type: true
@@ -262,7 +265,8 @@ Page({
         call,
         desc,
         imgList: imageList,
-        time: new Date().getTime()
+        time: new Date().getTime(),
+        openid
       },
       success: (res) => {
         const {

@@ -11,6 +11,7 @@ Page({
 
   //获得联系功能
   getCall() {
+    const {call} = this.data.info
     wx.showModal({
       title: '联系方式',
       content: call,
@@ -125,7 +126,7 @@ Page({
       url: 'http://127.0.0.1:8082/getapi/getcol',
       method: 'POST',
       data: {
-        id: parsedInfo._id,
+        id: parsedInfo._id?parsedInfo._id:parsedInfo.id,
         openid,
       },
       success: (res) => {

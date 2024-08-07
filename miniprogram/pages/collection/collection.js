@@ -7,7 +7,7 @@ Page({
   data: {
     tabList: ["寻主", "寻物"],
     list: [],
-    select:0,
+    select: 0,
   },
 
   // 获取导航分类
@@ -19,10 +19,12 @@ Page({
   },
 
   // 跳转详情页
+  // 跳转详情页
   toDetail(e) {
     const {
       info
     } = e.currentTarget.dataset;
+    console.log(info);
     wx.navigateTo({
       url: `../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
     })
@@ -32,23 +34,27 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const {select} = this.data
+    const {
+      select
+    } = this.data
     wx.request({
       url: 'http://127.0.0.1:8082/getapi/getcoldata',
-      method:'POST',
-      data:{
-        openid:wx.getStorageSync('openid'),
-        type:select,
+      method: 'POST',
+      data: {
+        openid: wx.getStorageSync('openid'),
+        type: select,
       },
-      success:(res)=>{
-        const {data} = res.data
+      success: (res) => {
+        const {
+          data
+        } = res.data
         // 将图片数组字符串转变为真正的数组对象
         const modifiedData = data.map(item => ({
           ...item,
           imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
         }));
         this.setData({
-          list:modifiedData
+          list: modifiedData
         })
       }
     })

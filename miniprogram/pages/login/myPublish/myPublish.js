@@ -1,45 +1,67 @@
 // pages/collection/collection.js
+import {
+  ajax,formatTime 
+} from '../../../utils/index'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    tabList:["寻主","寻物"],
-    list:[
-      {
-        image:"../../images/banner2.jpg",
-        name:"身份证",
-        region:"东合校区",
-        date:"5月20日",
-        desc:"有没有人再食堂看到啊，有赏，请联系...",
-        publish_time:"2024-7-30 11:07"
-      },
-      {
-        image:"../../images/banner1.jpg",
-        name:"身份证",
-        region:"东合校区",
-        date:"5月20日",
-        desc:"有没有人再食堂看到啊，有赏，请联系...",
-        publish_time:"2024-7-30 11:07"
-      },
-      {
-        image:"../../images/banner2.jpg",
-        name:"身份证",
-        region:"东合校区",
-        date:"5月20日",
-        desc:"有没有人再食堂看到啊，有赏，请联系...",
-        publish_time:"2024-7-30 11:07"
-      }
-    ],
+    tabList: ["寻主", "寻物"],
+    list: [],
+    select: 0,
   },
 
+  // 获取导航分类
+  getTab(e) {
+    this.setData({
+      select: e.detail
+    })
+    this.onLoad();
+  },
+
+  // 跳转详情页
+  toDetail(e) {
+    const {
+      info
+    } = e.currentTarget.dataset;
+    console.log(info);
+    wx.navigateTo({
+      url: `../../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  async onLoad(options) {
+    const {
+      select
+    } = this.data
+    const params = {
+      openid: wx.getStorageSync('openid'),
+      type: select
+    }
+    const result = await ajax('/pubapi/getmypub', 'post', params)
+    const {
+      data
+    } = result.data
+    // 处理图片集
+    const modifiedData = data.map(item => ({
+      ...item,
+      imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
+    }));
+    this.setData({
+      list: modifiedData.map(item => {
+        return {
+          ...item,
+          time: formatTime(item.time)
+        }
+      })
 
+    });
   },
 
   /**

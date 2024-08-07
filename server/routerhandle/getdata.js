@@ -84,24 +84,44 @@ const public_handle = {
         })
     },
 
-    getcoldata:(req,res)=>{
+    getcoldata: (req, res) => {
         console.log(req.body);
-        const {openid,type} = req.body;
+        const { openid, type } = req.body;
         // 通过openid和type字段查询数据
         const sqlStr = 'SELECT * FROM collection WHERE openid=? AND type=?'
-        db.query(sqlStr,[openid,type],(err,result)=>{
-            if(err){
+        db.query(sqlStr, [openid, type], (err, result) => {
+            if (err) {
                 return res.send({
-                    status:401,
-                    message:'查询失败:'+err.message
+                    status: 401,
+                    message: '查询失败:' + err.message
                 })
-            }else{
+            } else {
                 return res.send({
-                    status:200,
-                    message:'Success',
-                    data:result
+                    status: 200,
+                    message: 'Success',
+                    data: result
                 })
             }
+        })
+    },
+
+    getclatwo: (req, res) => {
+        const { type, classifytwo } = req.body;
+        console.log(type, classifytwo);
+        // 根据分类和二级分类获取数据
+        const sqlStr = 'select * from loseSchema where type = ? and classify2 = ?'
+        db.query(sqlStr, [type, classifytwo], (err, result) => {
+            if (err) {
+                return res.send({
+                    status: 500,
+                    message: '获取数据失败'
+                })
+            }
+            return res.send({
+                status: 200,
+                message: '获取数据成功',
+                data: result
+            })
         })
     }
 }

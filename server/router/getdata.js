@@ -13,5 +13,7 @@ router.post('/getcol',public_handle.getcol)
 router.post('/delcol',public_handle.delcol)
 // 获取收藏夹数据
 router.post('/getcoldata',public_handle.getcoldata)
+// 通过二级分类获取数据
+router.post('/getclatwo',public_handle.getclatwo)
 
 module.exports = router

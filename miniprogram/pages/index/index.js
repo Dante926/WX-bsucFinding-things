@@ -1,7 +1,8 @@
 // import { it } from 'element-plus/es/locale';
 import {
   formatTime
-} from '../../utils/time';
+} from '../../utils/index';
+
 
 Page({
 
@@ -42,6 +43,7 @@ Page({
     const {
       select
     } = this.data;
+    
     wx.request({
       url: 'http://127.0.0.1:8082/getapi/getdata',
       method: 'POST',

@@ -19,9 +19,9 @@
     </view>
 
     <view class="classify-right">
-      <view class="classify-right-item" wx:for="{{[1,1,1,1,1,1,1,1]}}" wx:key="index">
-        <image class="classify-right-image" src="../../images/tabbar/主页 (1).png" />
-        <text class="classify-right-text">身份证</text>
+      <view class="classify-right-item" wx:for="{{rightList[select]}}" wx:key="index" bindtap="toClassify" data-item="{{item}}">
+        <image class="classify-right-image" src="{{item.url}}" />
+        <text class="classify-right-text">{{item.text}}</text>
       </view>
     </view>
 
