@@ -80,6 +80,10 @@ app.get('/login', async (req, res) => {
 const loginRouter = require('./router/login')
 app.use('/loginapi', loginRouter)
 
+// 管理系统模块
+const adminRouter = require('./admin-pc/admin')
+app.use('/adminapi', adminRouter)
+
 app.listen(8082, () => {
     console.log('Server is running http://127.0.0.1:8082')
 })
