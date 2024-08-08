@@ -10,26 +10,27 @@
             </el-header>
 
             <el-container>
-                <el-aside width="200px"><el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen"
-                        @close="handleClose">
-                        <el-menu-item index="2">
-                            <i class="el-icon-menu"></i>
-                            <span slot="title">寻物管理</span>
-                        </el-menu-item>
-                        <el-menu-item index="2">
-                            <i class="el-icon-menu"></i>
+                <el-aside width="200px"><el-menu :default-active="currentPath" class="el-menu-vertical-demo"
+                        @select="handleSelect">
+                        <el-menu-item index="/findPerson">
+                            <i class="el-icon-search"></i>
                             <span slot="title">寻主管理</span>
                         </el-menu-item>
-                        <el-menu-item index="3" >
-                            <i class="el-icon-document"></i>
+                        <el-menu-item index="/findGoods">
+                            <i class="el-icon-search"></i>
+                            <span slot="title">寻物管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="/user">
+                            <i class="el-icon-user"></i>
                             <span slot="title">用户管理</span>
                         </el-menu-item>
-                        <el-menu-item index="4">
-                            <i class="el-icon-setting"></i>
+                        <el-menu-item index="/admin">
+                            <i class="el-icon-user-solid"></i>
                             <span slot="title">管理员管理</span>
                         </el-menu-item>
                     </el-menu></el-aside>
-                <el-main>Main</el-main>
+
+                <el-main><router-view /></el-main>
             </el-container>
         </el-container>
     </div>
@@ -40,7 +41,8 @@ export default {
     data() {
         return {
             roel: '',
-            nickname: ''
+            nickname: '',
+            currentPath: '/findPerson'
         }
     },
     created() {
@@ -57,6 +59,14 @@ export default {
         outlogin() {
             localStorage.removeItem('userInfo')
             this.$router.push('/login')
+        },
+
+        handleSelect(path) {
+            console.log(path);
+            if (path !== this.currentPath) {
+                this.$router.push(path);
+                this.currentPath = path
+            }
         },
     }
 }
@@ -89,7 +99,7 @@ export default {
     text-align: center;
     height: calc(100vh - 60px); // 根据当前页面的容器动态撑满
 
-    .el-menu-vertical-demo{
+    .el-menu-vertical-demo {
         height: 100%;
     }
 }

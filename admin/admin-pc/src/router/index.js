@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect:'/home'
+    redirect: '/home'
   },
   {
     path: '/login',
@@ -17,7 +17,30 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: () => import("../views/Home.vue")
+    component: () => import("../views/Home.vue"),
+    redirect: '/findPerson',
+    children: [
+      {
+        path:'/findGoods',
+        name:'findGoods',
+        component: () => import("../views/FindGoods.vue")
+      },
+      {
+        path:'/findPerson',
+        name:'findPerson',
+        component: () => import("../views/FindPerson.vue")
+      },
+      {
+        path:'/user',
+        name:'user',
+        component: () => import("../views/User.vue")
+      },
+      {
+        path:'/admin',
+        name:'admin',
+        component: () => import("../views/Admin.vue")
+      },
+    ],
   },
 ]
 
