@@ -54,7 +54,8 @@ Page({
           imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
         }));
         this.setData({
-          list: modifiedData
+          list: modifiedData,
+          login:!!wx.getStorageSync('login')
         })
       }
     })
@@ -76,6 +77,7 @@ Page({
         select: 3
       })
     }
+    this.onLoad();
   },
 
   /**

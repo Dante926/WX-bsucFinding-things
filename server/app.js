@@ -76,6 +76,10 @@ app.get('/login', async (req, res) => {
     }
 });
 
+// 用户学号注册模块
+const loginRouter = require('./router/login')
+app.use('/loginapi', loginRouter)
+
 app.listen(8082, () => {
     console.log('Server is running http://127.0.0.1:8082')
 })

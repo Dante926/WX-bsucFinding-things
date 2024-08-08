@@ -7,6 +7,27 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/collection/collection",
+          "pathName": "pages/collection/collection",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/reallogin/reallogin",
+          "pathName": "pages/reallogin/reallogin",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/search/search",
           "pathName": "pages/search/search",
           "query": "",

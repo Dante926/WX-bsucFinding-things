@@ -8,6 +8,7 @@ Page({
     tabList: ["寻主", "寻物"],
     list: [],
     select: 0,
+    login: true
   },
 
   // 获取导航分类
@@ -52,7 +53,7 @@ Page({
           imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
         }));
         this.setData({
-          list: modifiedData
+          list: modifiedData,
         })
       }
     })
@@ -74,6 +75,7 @@ Page({
         select: 3
       })
     }
+    this.onLoad();
   },
 
   /**

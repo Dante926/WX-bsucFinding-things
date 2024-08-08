@@ -40,43 +40,52 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const {
-      select
-    } = this.data;
+    if (wx.getStorageSync('login_account')) {
+      const {
+        select
+      } = this.data;
+  
+      wx.request({
+        url: 'http://127.0.0.1:8082/getapi/getdata',
+        method: 'POST',
+        data: {
+          type: select,
+        },
+        success: (res) => {
+          const {
+            data
+          } = res;
+          // 确认 data.data 是一个对象数组，且包含 imgList 属性 将imgList字符串转变为真正的数组
+          const modifiedData = data.data.map(item => ({
+            ...item,
+            imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
+          }));
+          this.setData({
+            list: modifiedData.map(item => {
+              return {
+                ...item,
+                time: formatTime(item.time)
+              }
+            })
+            /* 
+            map高阶函数，用于遍历数组中的每个item通过自己的方法将item中的某个值或者item本身处理后重新传入item中 
+            
+            这里的意义为，modifiedData中每个item的time都被处理了一遍
+            */
+          });
+        },
+        fail: (error) => {
+          console.error('Request failed:', error);
+        }
+      });
+      return;
+    }else{
+      wx.redirectTo({
+        url: '../reallogin/reallogin',
+      })
+    }
 
-    wx.request({
-      url: 'http://127.0.0.1:8082/getapi/getdata',
-      method: 'POST',
-      data: {
-        type: select,
-      },
-      success: (res) => {
-        const {
-          data
-        } = res;
-        // 确认 data.data 是一个对象数组，且包含 imgList 属性 将imgList字符串转变为真正的数组
-        const modifiedData = data.data.map(item => ({
-          ...item,
-          imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
-        }));
-        this.setData({
-          list: modifiedData.map(item => {
-            return {
-              ...item,
-              time: formatTime(item.time)
-            }
-          })
-          /* 
-          map高阶函数，用于遍历数组中的每个item通过自己的方法将item中的某个值或者item本身处理后重新传入item中 
-          
-          这里的意义为，modifiedData中每个item的time都被处理了一遍
-          */
-        });
-      },
-      fail: (error) => {
-        console.error('Request failed:', error);
-      }
-    });
+    
   },
 
   /**

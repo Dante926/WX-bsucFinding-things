@@ -3,9 +3,9 @@
     <block wx:if="{{item.type === 0}}">
       <image class="image" wx:if="{{select === index}}" src="../{{item.selectedIconPath}}" />
       <image class="image" wx:else src="../{{item.iconPath}}" />
-      <text  class="tabbar-text">{{item.text}}</text>
+      <text class="tabbar-text">{{item.text}}</text>
     </block>
-    <block wx:else="">
+    <block wx:else>
       <view class="publish">
         <image class="tabbar-image" src="../images/tabbar/发布 (1).png" />
       </view>

@@ -45,13 +45,21 @@ Component({
       } = e.currentTarget.dataset; /* 解构数据 */
       if (index !== this.data.select && type === 0) {
         // 常规条件下使用navigator进行跳转，组件下使用switchTab
-        wx.switchTab ({
-          url: '../../'+page,
+        wx.switchTab({
+          url: '../../' + page,
         })
-      }else{
-        wx.navigateTo({
-          url:'../../'+page,
-        })
+      } else {
+        if (!wx.getStorageSync('login')) {
+          wx.showToast({
+            title: '请先登录账号...',
+            icon: 'error'
+          })
+          return;
+        } else {
+          wx.navigateTo({
+            url: '../../' + page,
+          })
+        }
       }
     }
   }

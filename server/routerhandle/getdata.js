@@ -21,7 +21,7 @@ const public_handle = {
 
     pushcol: (req, res) => {
         const { id, openid, type, classify1, classify2, name, date, region, call, desc, imgList, time } = req.body;
-        console.log(req.body);
+        // console.log(req.body);
         if (id) {
             const sqlStr = 'INSERT INTO collection(id,openid,type,classify1,classify2,name,date,region,`call`,`desc`,imgList,time) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'
             db.query(sqlStr, [id, openid, type, classify1, classify2, name, date, region, call, desc, JSON.stringify(imgList), time], (err, result) => {

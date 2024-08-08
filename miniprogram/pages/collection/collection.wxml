@@ -1,6 +1,13 @@
 <view class="body">
-  <Tab bindgettab="getTab" tabList="{{tabList}}" />
-  <view class="lose-list">
-    <ViewCard bindtap="toDetail" data-info="{{item}}" wx:for="{{list}}" carddata="{{item}}" wx:key="index" />
+  <view wx:if="{{login}}">
+    <Tab bindgettab="getTab" tabList="{{tabList}}" />
+    <view class="lose-list">
+      <ViewCard bindtap="toDetail" data-info="{{item}}" wx:for="{{list}}" carddata="{{item}}" wx:key="index" />
+    </view>
   </view>
+
+  <view wx:else>
+    请先登录账号...
+  </view>
+
 </view>

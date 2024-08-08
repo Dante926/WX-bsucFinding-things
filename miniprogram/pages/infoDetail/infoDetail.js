@@ -47,6 +47,7 @@ Page({
     if (collectionIcon[0] === '../../images/收藏红.png') {
       const {
         _id,
+        id,
         type,
         classify1,
         classify2,
@@ -58,13 +59,13 @@ Page({
         imgList,
         time
       } = info
-
+      const actualId = _id || id;
       const openid = wx.getStorageSync('openid')
       wx.request({
         url: 'http://127.0.0.1:8082/getapi/pushcol',
         method: "POST",
         data: {
-          id: _id,
+          id: actualId,
           type,
           classify1,
           classify2,
@@ -78,7 +79,6 @@ Page({
           openid
         },
         success: (res) => {
-          console.log(res.data.message);
           if (res.data.message == 'Success') {
             wx.showToast({
               title: '收藏成功',
@@ -91,13 +91,17 @@ Page({
       // 取消收藏
       const {
         _id,
+        id
       } = info;
+
+      const actualId = _id || id; // 使用逻辑或运算符获取真正存在的 id
+
       const openid = wx.getStorageSync('openid');
       wx.request({
         url: 'http://127.0.0.1:8082/getapi/delcol',
         method: 'POST',
         data: {
-          id: _id,
+          id: actualId,
           openid,
         },
         success: (res) => {
@@ -125,7 +129,7 @@ Page({
       this.setData({
         info: parsedInfo
       });
-    }else{
+    } else {
       this.setData({
         info: parsedInfo
       });

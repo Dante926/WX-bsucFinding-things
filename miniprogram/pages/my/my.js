@@ -26,7 +26,6 @@ Page({
       {
         url: '../../images/my/退出.png',
         text: '退出登入',
-
       }
     ]
   },
@@ -99,6 +98,8 @@ Page({
         complete: (res) => {
           if (res.confirm) {
             wx.removeStorageSync('login')
+            wx.removeStorageSync('openid')
+            wx.removeStorageSync('userInfo')
             this.setData({
               login: false
             })
