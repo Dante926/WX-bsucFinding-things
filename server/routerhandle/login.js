@@ -2,7 +2,7 @@ const db = require('../mysql/db')
 
 const public_handle = {
     register: (req, res) => {
-        const { username, password } = req.body;
+        const { username, password, date } = req.body;
         // 查询用户名是否被占用
         const sqlStr = 'select * from userSchema where username = ?'
         db.query(sqlStr, username, (err, result) => {
@@ -12,8 +12,8 @@ const public_handle = {
                 return res.send({ status: 500, message: '用户名已被占用...' })
             } else {
                 // 如果未被占用
-                const sqlStr = 'insert into userSchema (username,password) value (?,?)'
-                db.query(sqlStr, [username, password], (err, result) => {
+                const sqlStr = 'insert into userSchema (username,password,date) value (?,?,?)'
+                db.query(sqlStr, [username, password, date], (err, result) => {
                     if (err) {
                         // 注册失败
                         return res.send({ status: 500, message: '注册失败...', err })
@@ -35,7 +35,7 @@ const public_handle = {
         console.log(username, password);
         const sqlStr = 'select * from userSchema where username = ?'
         db.query(sqlStr, username, (err, result) => {
-            if (err) return res.send({ status: 500, message: '登录失败',data: err })
+            if (err) return res.send({ status: 500, message: '登录失败', data: err })
             if (result.length === 0) {
                 return res.send({ status: 500, message: '用户名错误' })
             } else {

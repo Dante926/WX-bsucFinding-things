@@ -68,7 +68,8 @@ Page({
     if (password === repassword) {
       const params = {
         username,
-        password
+        password,
+        date:new Date().getTime()
       }
       const result = ajax('/loginapi/register', 'post', params)
         .then(result => {

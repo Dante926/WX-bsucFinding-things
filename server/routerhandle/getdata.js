@@ -21,7 +21,6 @@ const public_handle = {
 
     pushcol: (req, res) => {
         const { id, openid, type, classify1, classify2, name, date, region, call, desc, imgList, time } = req.body;
-        // console.log(req.body);
         if (id) {
             const sqlStr = 'INSERT INTO collection(id,openid,type,classify1,classify2,name,date,region,`call`,`desc`,imgList,time) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)'
             db.query(sqlStr, [id, openid, type, classify1, classify2, name, date, region, call, desc, JSON.stringify(imgList), time], (err, result) => {
@@ -32,7 +31,6 @@ const public_handle = {
     },
 
     getcol: (req, res) => {
-        console.log(req.body.id);
         const { id, openid } = req.body;
         if (id && openid) {
             const sqlStr = 'SELECT * FROM collection WHERE id=? AND openid=?'
@@ -85,7 +83,6 @@ const public_handle = {
     },
 
     getcoldata: (req, res) => {
-        console.log(req.body);
         const { openid, type } = req.body;
         // 通过openid和type字段查询数据
         const sqlStr = 'SELECT * FROM collection WHERE openid=? AND type=?'
@@ -107,12 +104,10 @@ const public_handle = {
 
     getclatwo: (req, res) => {
         const { type, classifytwo } = req.body;
-        console.log(type, classifytwo);
         // 根据分类和二级分类获取数据
         const sqlStr = 'select * from loseSchema where type = ? and classify2 LIKE ?'
         db.query(sqlStr, [type, `%${classifytwo}%`], (err, result) => {
             if (err) {
-                console.log(err);    
                 return res.send({
                     status: 500,
                     message: '获取数据失败'
@@ -128,12 +123,9 @@ const public_handle = {
 
     getsearch: (req, res) => {
         const { name } = req.body;
-        // console.log(name);
-        // const _name = new RegExp(name, 'i'); // 忽略大小写
         const sqlStr = `SELECT * FROM loseSchema WHERE name LIKE ?`
         db.query(sqlStr, [`%${name}%`], (err, result) => {
             if (err) {
-                console.log(err);
                 return res.send({
                     status: 500,
                     message: '获取数据失败'

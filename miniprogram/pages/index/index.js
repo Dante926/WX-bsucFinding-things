@@ -104,6 +104,7 @@ Page({
         select: 0
       })
     }
+    this.onLoad();
   },
 
   /**

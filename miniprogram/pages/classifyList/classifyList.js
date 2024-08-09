@@ -30,7 +30,6 @@ Page({
     const {
       info
     } = e.currentTarget.dataset;
-    console.log(info);
     wx.navigateTo({
       url: `../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
     })

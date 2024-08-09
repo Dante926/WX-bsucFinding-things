@@ -25,6 +25,9 @@ Page({
       }, {
         url: '../../images/classify/证件类/银行卡.png',
         text: '银行卡'
+      }, {
+        url: '../../images/classify/证件类/学生证.png',
+        text: '学生证'
       }],
       // 生活用品
       [{
@@ -106,7 +109,7 @@ Page({
       }, {
         url: '../../images/classify/美妆护肤/香水.png',
         text: '香水'
-      },],
+      }, ],
       // 衣服物品
       [{
         url: '../../images/classify/衣服物品/男装.png',
@@ -123,7 +126,7 @@ Page({
       }, {
         url: '../../images/classify/衣服物品/包包.png',
         text: '包包'
-      },],
+      }, ],
       // 饰品
       [{
         url: '../../images/classify/饰品/手表.png',
@@ -149,7 +152,7 @@ Page({
       }, {
         url: '../../images/classify/饰品/发饰.png',
         text: '发饰'
-      },],
+      }, ],
       // 文娱
       [{
         url: '../../images/classify/文娱/教材.png',
@@ -175,7 +178,7 @@ Page({
       }, {
         url: '../../images/classify/文娱/棋牌.png',
         text: '棋牌'
-      },],
+      }, ],
       // 其他
       [{
         url: '../../images/classify/其他/药品.png',

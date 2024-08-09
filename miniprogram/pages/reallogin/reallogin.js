@@ -21,7 +21,6 @@ Page({
     }
 
     this.timer = setTimeout(() => {
-      console.log(value);
       this.setData({
         username: value
       });
@@ -68,7 +67,6 @@ Page({
     }
     const result = ajax('/loginapi/login', 'post', params)
       .then(result => {
-        console.log(result.data);
         const {
           message,
           username,

@@ -42,7 +42,6 @@ Page({
               const {
                 code
               } = res
-              console.log(code);
               if (res.code) {
                 wx.request({
                   url: 'http://127.0.0.1:8082/login',
@@ -54,7 +53,6 @@ Page({
                     const {
                       openid
                     } = res.data.data
-                    console.log(openid);
                     wx.setStorageSync('openid', openid)
                   }
                 })

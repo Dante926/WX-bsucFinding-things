@@ -107,7 +107,7 @@ export default {
 .el-main {
     background-color: #E9EEF3;
     color: #333;
-    text-align: center;
+    // text-align: center;
     height: calc(100vh - 60px); // 根据当前页面的容器动态撑满
 }
 </style>
