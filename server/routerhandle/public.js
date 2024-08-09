@@ -4,8 +4,7 @@ const public_handle = {
     public: (req, res) => {
         // 接收参数
         const { type, openid, classify1, classify2, name, date, region, call, desc, imgList, time } = req.body;
-        console.log(openid);
-        console.log(req.body);
+
         // 将数据存储到数据库closeSchema中
         const sqlStr = 'INSERT INTO loseschema (type,openid,classify1,classify2,name,date,region,`call`,`desc`,imgList,time) VALUES (?,?,?,?,?,?,?,?,?,?,?)'
         db.query(sqlStr, [type, openid, classify1, classify2, name, date, region, call, desc, JSON.stringify(imgList), time], (err, result) => {
@@ -25,7 +24,6 @@ const public_handle = {
     },
 
     getmypub: (req, res) => {
-        console.log(req.body);
         const { openid, type } = req.body;
         if (openid) {
             const sqlStr = `select * from loseSchema where openid = ? and type = ?`

@@ -49,7 +49,6 @@ Page({
                     code,
                   },
                   success: (res) => {
-                    console.log(res.data.data);
                     const {
                       openid
                     } = res.data.data

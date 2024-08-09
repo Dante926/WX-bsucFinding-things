@@ -17,4 +17,10 @@ router.post('/getuser',public_handle.getuser)
 // 删除用户
 router.post('/deleuser',public_handle.deleuser)
 
+// 查询管理员用户
+router.post('/getadmin',public_handle.getadmin)
+
+// 删除管理员用户
+router.post('/deleadmin',public_handle.deleadmin)
+
 module.exports = router

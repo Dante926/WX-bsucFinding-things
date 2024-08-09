@@ -71,14 +71,14 @@ const public_handle = {
             const sqlCount = 'SELECT COUNT(*) AS total FROM userSchema where username like ?';
             const sqlStr = 'select * from userSchema where username like ? limit ? OFFSET ?'
             // 执行查询记录总数的 SQL 查询
-            db.query(sqlCount,[`%${search}%`], (err, countResults) => {
+            db.query(sqlCount, [`%${search}%`], (err, countResults) => {
                 if (err) {
                     return res.status(500).json({ error: err.message });
                 }
                 const total = countResults[0].total;
 
                 // 执行查询当前页数据的 SQL 查询
-                db.query(sqlStr, [`%${search}%`,limit, offset], (err, dataResults) => {
+                db.query(sqlStr, [`%${search}%`, limit, offset], (err, dataResults) => {
                     if (err) {
                         return res.status(500).json({ error: err.message });
                     }
@@ -135,6 +135,93 @@ const public_handle = {
                 })
             }
         })
+    },
+
+    getadmin: (req, res) => {
+        const { page, size, search } = req.body;
+        const offset = (page - 1) * size;
+        const limit = size;
+
+        if (search) {
+            const sqlCount = 'SELECT COUNT(*) AS total FROM SuperUsers where username like ?';
+            const sqlStr = 'select * from SuperUsers where username like ? limit ? OFFSET ?'
+            // 执行查询记录总数的 SQL 查询
+            db.query(sqlCount, [`%${search}%`], (err, countResults) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                }
+                const total = countResults[0].total;
+
+                // 执行查询当前页数据的 SQL 查询
+                db.query(sqlStr, [`%${search}%`, limit, offset], (err, dataResults) => {
+                    if (err) {
+                        return res.status(500).json({ error: err.message });
+                    }
+
+                    res.send({
+                        data: dataResults.map(item => {
+                            return {
+                                ...item,
+                                role: Number(item.role)
+                            }
+                        }),
+                        total: total
+                    });
+                });
+            });
+
+        } else {
+            // 查询符合条件的所有记录
+            const sqlCount = 'SELECT COUNT(*) AS total FROM SuperUsers';
+            const sqlData = 'SELECT * FROM SuperUsers LIMIT ? OFFSET ?';
+
+            // 执行查询记录总数的 SQL 查询
+            db.query(sqlCount, (err, countResults) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                }
+                const total = countResults[0].total;
+
+                // 执行查询当前页数据的 SQL 查询
+                db.query(sqlData, [limit, offset], (err, dataResults) => {
+                    if (err) {
+                        return res.status(500).json({ error: err.message });
+                    }
+
+                    res.send({
+                        data: dataResults.map(item => {
+                            return {
+                                ...item,
+                                role: Number(item.role)
+                            }
+                        }),
+                        total: total
+                    });
+                });
+            });
+        }
+    },
+
+    deleadmin: (req, res) => {
+        const { id, role } = req.body;
+        if (role == 1) {
+            return res.send({
+                status: 500,
+                message: 'NoPower',
+            })
+        } else {
+            const sqlStr = 'delete from SuperUsers where id = ?';
+            db.query(sqlStr, id, (err, result) => {
+                if (err) return res.send({ status: 500, message: '删除失败',err});
+                
+                return res.send({
+                    status: 200,
+                    message: 'Success',
+                    data: result
+                });
+            })
+        }
+
     },
 }
 

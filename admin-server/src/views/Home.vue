@@ -74,9 +74,11 @@ export default {
 
 <style lang="less" scoped>
 .el-header {
-    background-color: #B3C0D1;
+    background-color: #ffffff;
     color: #333;
     height: 60px;
+    // 下边框
+    border-bottom: 1px solid #dce3e8;
 
     display: flex;
     align-items: center;
