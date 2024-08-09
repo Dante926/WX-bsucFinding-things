@@ -5,13 +5,13 @@ const public_handle = {
     getdata: (req, res) => {
         const type = req.body.type
         if (type == 0) {
-            const sqlStr = `select * from loseSchema where type = 0`
+            const sqlStr = `select * from loseSchema where type = 0 ORDER BY time DESC`
             db.query(sqlStr, (err, result) => {
                 if (err) return res.send({ status: 400, message: err })
                 return res.send({ status: 200, message: 'Success', data: result })
             })
         } else {
-            const sqlStr = `select * from loseSchema where type = 1`
+            const sqlStr = `select * from loseSchema where type = 1 ORDER BY time DESC`
             db.query(sqlStr, (err, result) => {
                 if (err) return res.send({ status: 400, message: err })
                 return res.send({ status: 200, message: 'Success', data: result })
@@ -107,10 +107,12 @@ const public_handle = {
 
     getclatwo: (req, res) => {
         const { type, classifytwo } = req.body;
+        console.log(type, classifytwo);
         // 根据分类和二级分类获取数据
-        const sqlStr = 'select * from loseSchema where type = ? and classify2 = ?'
-        db.query(sqlStr, [type, classifytwo], (err, result) => {
+        const sqlStr = 'select * from loseSchema where type = ? and classify2 LIKE ?'
+        db.query(sqlStr, [type, `%${classifytwo}%`], (err, result) => {
             if (err) {
+                console.log(err);    
                 return res.send({
                     status: 500,
                     message: '获取数据失败'

@@ -19,7 +19,7 @@
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fe2442",
-    "navigationBarTitleText": "百院寻物",
+    "navigationBarTitleText": "智慧寻物",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
