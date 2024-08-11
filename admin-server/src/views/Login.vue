@@ -5,7 +5,7 @@
         <div class="form">
             <div class="title">失物招领管理系统</div>
             <el-input v-model="username" placeholder="请输入账号"></el-input>
-            <el-input v-model="password" placeholder="请输入密码"></el-input>
+            <el-input v-model="password" placeholder="请输入密码" show-password></el-input>
             <el-button @click="submit">登录</el-button>
         </div>
     </div>

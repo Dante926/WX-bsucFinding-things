@@ -20,7 +20,7 @@
             <el-table-column prop="edit" label="操作">
                 <template slot-scope="scope">
                     <el-popconfirm title="重要数据，确认删除?" @confirm="deleteData(scope.row.id)">
-                        <el-button slot="reference">删除</el-button>
+                        <el-button type="danger" slot="reference">删除</el-button>
                     </el-popconfirm>
                 </template>
             </el-table-column>
@@ -51,7 +51,7 @@ export default {
     methods: {
         toSearch() {
             // 防抖处理 优化性能
-            const _toSearch = debounce(()=>this.getTabData(this.search),1000);
+            const _toSearch = debounce(() => this.getTabData(this.search), 1000);
             _toSearch();
         },
         async getTabData(search) {

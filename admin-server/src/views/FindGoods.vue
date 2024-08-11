@@ -30,8 +30,8 @@
             <el-table-column prop="edit" label="操作">
                 <template slot-scope="scope">
                     <el-popconfirm title="重要数据，确认删除?" @confirm="deleteData(scope.row._id)">
-                    <el-button slot="reference">删除</el-button>
-                </el-popconfirm>
+                        <el-button type="danger" slot="reference">删除</el-button>
+                    </el-popconfirm>
                 </template>
             </el-table-column>
         </el-table>
@@ -79,32 +79,32 @@ export default {
             })
             this.total = total
         },
-        async deleteData(_id){
-            const params = {_id};
+        async deleteData(_id) {
+            const params = { _id };
             console.log(params);
-            if(_id){
+            if (_id) {
                 const result = await this.$http.post('/adminapi/deledata', params)
                 console.log(result);
-                if(result.data.message == 'Success'){
+                if (result.data.message == 'Success') {
                     // 提示删除成功
                     this.$message({
                         message: '删除成功',
                         type: 'success'
                     });
                     this.getTabData();
-                }else{
+                } else {
                     this.$message({
                         message: '删除失败',
                         type: 'error'
                     });
                     this.getTabData();
                 }
-            }else{
+            } else {
                 // 提示数据出错
                 this.$message.error('数据出错')
                 this.getTabData();
             }
-            
+
         },
         handleSizeChange(val) {
             this.size = val;
@@ -131,7 +131,7 @@ export default {
     max-width: 100%;
     box-sizing: border-box;
 
-    h2{
+    h2 {
         margin-bottom: 20px;
     }
 }

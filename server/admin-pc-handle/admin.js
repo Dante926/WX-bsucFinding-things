@@ -212,8 +212,8 @@ const public_handle = {
         } else {
             const sqlStr = 'delete from SuperUsers where id = ?';
             db.query(sqlStr, id, (err, result) => {
-                if (err) return res.send({ status: 500, message: '删除失败',err});
-                
+                if (err) return res.send({ status: 500, message: '删除失败', err });
+
                 return res.send({
                     status: 200,
                     message: 'Success',
@@ -221,6 +221,32 @@ const public_handle = {
                 });
             })
         }
+
+    },
+
+    addadmin: (req, res) => {
+        const { username, password, role, nickname } = req.body;
+        console.log(req.body);
+        const create_time = new Date().getTime();
+        // 检查用户名是否冲突
+        const sqlCheck = 'select * from SuperUsers where username = ?'
+        db.query(sqlCheck, [username], (err, result) => {
+            if (err) return res.send({ status: 500, message: '用户名查询失败', err });
+            if (result.length > 0) {
+                return res.send({ status: 500, message: '用户名已存在' });
+            } else {
+                const sqlStr = 'insert into SuperUsers (username,password,role,nickname,create_time) values (?,?,?,?,?)'
+                db.query(sqlStr, [username, password, role, nickname, create_time], (err, result) => {
+                    if (err) return res.send({ status: 500, message: '添加失败', err });
+                    return res.send({
+                        status: 200,
+                        message: 'Success',
+                        data: result
+                    });
+                })
+            }
+        })
+
 
     },
 }

@@ -23,4 +23,7 @@ router.post('/getadmin',public_handle.getadmin)
 // 删除管理员用户
 router.post('/deleadmin',public_handle.deleadmin)
 
+// 新增管理员
+router.post('/addadmin',public_handle.addadmin)
+
 module.exports = router
