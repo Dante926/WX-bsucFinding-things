@@ -72,10 +72,10 @@
   filter: drop-shadow(5rpx 5rpx 5rpx rgba(0, 0, 0, .5));
 }
 
-.lose-item .lose-image:hover {
+/* .lose-item .lose-image:hover {
   transform: scale(1.05);
   filter: drop-shadow(15rpx 15rpx 15rpx rgba(0, 0, 0, .5));
-}
+} */
 
 .lose-content {
   display: flex;
@@ -102,7 +102,7 @@
 
 .lose-content .publish-time {
   margin-top: 30rpx;
-  margin-left: 241rpx;
+  margin-left: 230rpx;
   font-size: 26rpx;
   color: #666;
   display: flex;
@@ -113,4 +113,18 @@
   white-space: nowrap;
   overflow: hidden;
   max-width: 400rpx;
+}
+
+.lose-body{
+  background-color: #fff;
+  margin-bottom: 5rpx;
+}
+
+.handle-btn{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.update-btn, .delete-btn{
+  margin-right: 20rpx;
 }

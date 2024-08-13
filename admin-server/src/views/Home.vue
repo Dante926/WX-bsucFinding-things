@@ -54,6 +54,8 @@ export default {
         } else {
             this.$router.push('/login')
         }
+        const { path } = this.$route
+        this.currentPath = path
     },
     methods: {
         outlogin() {
@@ -61,12 +63,34 @@ export default {
             this.$router.push('/login')
         },
 
-        handleSelect(path) {
+        async handleSelect(path) {
             console.log(path);
-            if (path !== this.currentPath) {
-                this.$router.push(path);
-                this.currentPath = path
+            if (path === '/admin') {
+                const params = {
+                    username: JSON.parse(localStorage.getItem('userInfo')).username
+                }
+                const res = await this.$http.post('/adminapi/adminauth', params)
+                    .then(result => {
+                        console.log(result.data);
+                        if (result.data.message === 'Success') {
+                            if (path !== this.currentPath) {
+                                this.$router.push(path);
+                                this.currentPath = path
+                            }
+                        } else {
+                            this.$message.error('权限不足')
+                        }
+                    })
+            } else {
+                if (path !== this.currentPath) {
+                    this.$router.push(path);
+                    this.currentPath = path
+                } else {
+                    // 重载路由
+                    this.$router.go(0)
+                }
             }
+
         },
     }
 }

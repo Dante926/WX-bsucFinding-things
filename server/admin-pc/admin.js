@@ -26,4 +26,10 @@ router.post('/deleadmin',public_handle.deleadmin)
 // 新增管理员
 router.post('/addadmin',public_handle.addadmin)
 
+// 管理员鉴权
+router.post('/adminauth',public_handle.adminauth)
+
+// 编辑管理员
+router.post('/editadmin',public_handle.editadmin)
+
 module.exports = router

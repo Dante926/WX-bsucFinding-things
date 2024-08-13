@@ -1,6 +1,7 @@
 // pages/collection/collection.js
 import {
-  ajax,formatTime 
+  ajax,
+  formatTime
 } from '../../../utils/index'
 
 Page({
@@ -12,6 +13,44 @@ Page({
     tabList: ["寻主", "寻物"],
     list: [],
     select: 0,
+  },
+  getUpdata(e){
+    const {
+      _id
+    } = e.currentTarget.dataset.info
+    // console.log(_id);
+    wx.navigateTo({
+      url: `../../publish/publish?id=${_id}`,
+    })
+  },
+
+  getDelete(e) {
+    const {
+      _id
+    } = e.currentTarget.dataset.info
+    // console.log(_id);
+    const params = {
+      _id,
+    }
+    const result = ajax('/pubapi/delemypub','post',params)
+    .then(result=>{
+      console.log(result.data);
+      if(result.data.message === 'Success'){
+        wx.showToast({
+          title: '删除成功',
+          icon:'success',
+          success:()=>{
+            this.onLoad();
+          }
+        })
+      }else{
+        wx.showToast({
+          title: '删除失败',
+          icon:'error'
+        })
+      }
+    })
+
   },
 
   // 获取导航分类
@@ -27,7 +66,7 @@ Page({
     const {
       info
     } = e.currentTarget.dataset;
-    console.log(info);
+    // console.log(info);
     wx.navigateTo({
       url: `../../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
     })

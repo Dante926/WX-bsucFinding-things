@@ -1,3 +1,7 @@
+import {
+  ajax
+} from '../../utils/index'
+
 // pages/publish/publish.js
 Page({
 
@@ -28,14 +32,15 @@ Page({
       ['教材', '笔记', '文具', '球/球拍', '护具', '跳绳', '自行车', '棋牌', '其他'],
       ['药品', '零食', '周边', '其他']
     ],
-    multiIndex: [0, 0, 0],
+    multiIndex: [0, 0],
     check_type: false,
     check_name: false,
     check_data: false,
     check_region: false,
     check_call: false,
     check_desc: false,
-    check_img: false
+    check_img: false,
+    id: ''
   },
 
   bindMultiPickerChange(e) {
@@ -204,7 +209,8 @@ Page({
       region,
       call,
       desc,
-      imageList
+      imageList,
+      id,
     } = this.data;
 
     const openid = wx.getStorageSync('openid')
@@ -257,10 +263,10 @@ Page({
         icon: 'error'
       })
     }
-    wx.request({
-      url: 'http://127.0.0.1:8082/pubapi/public',
-      method: 'POST',
-      data: {
+
+    if (id) {
+      // 修改操作
+      const params = {
         type: Number(type),
         classify1: multiArray[0][multiIndex[0]],
         classify2: multiArray[1][multiIndex[1]],
@@ -271,30 +277,126 @@ Page({
         desc,
         imgList: imageList,
         time: new Date().getTime(),
-        openid
-      },
-      success: (res) => {
-        const {
-          data
-        } = res;
-        if (data.message === "Success") {
-          wx.switchTab({
-            url: '../index/index',
-            success: () => {
-              wx.showToast({
-                title: '发布成功',
-              })
-            }
-          })
-        }
+        openid,
+        id
       }
-    })
+
+      const result = ajax('/pubapi/updatapub', 'post', params)
+        .then(result => {
+          console.log(result.data.message);
+          if (result.data.message === 'Success') {
+
+            wx.switchTab({
+              url: '../index/index',
+              success: () => {
+                wx.showToast({
+                  title: '修改成功',
+                  icon: 'success'
+                })
+              }
+            })
+          } else if (result.data.message === 'Fail') {
+            wx.showToast({
+              title: '修改失败',
+              icon: 'error'
+            })
+          } else {
+            wx.showToast({
+              title: '系统错误请尝试',
+              icon: 'error'
+            })
+          }
+        })
+    } else {
+      // 发布操作
+      wx.request({
+        url: 'http://127.0.0.1:8082/pubapi/public',
+        method: 'POST',
+        data: {
+          type: Number(type),
+          classify1: multiArray[0][multiIndex[0]],
+          classify2: multiArray[1][multiIndex[1]],
+          name,
+          date,
+          region,
+          call,
+          desc,
+          imgList: imageList,
+          time: new Date().getTime(),
+          openid
+        },
+        success: (res) => {
+          const {
+            data
+          } = res;
+          if (data.message === "Success") {
+            wx.switchTab({
+              url: '../index/index',
+              success: () => {
+                wx.showToast({
+                  title: '发布成功',
+                })
+              }
+            })
+          }
+        }
+      })
+    }
+
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    // console.log(options);
+    const {
+      id
+    } = options
+    // console.log(id);
+    // 如果存在id说明想要实现修改数据
+    if (id) {
+      const params = {
+        id,
+      }
+      const {
+        multiArray,
+        pickerList
+      } = this.data
+      const result = ajax('/pubapi/getpubdata', 'post', params)
+        .then(result => {
+          const {
+            type,
+            classify1,
+            classify2,
+            name,
+            date,
+            region,
+            call,
+            desc,
+            imgList
+          } = result.data.data[0]
+          const index1 = multiArray[0].findIndex((item) => item === classify1)
+          const index2 = pickerList[index1].findIndex((item) => item === classify2)
+          this.setData({
+            type: String(type),
+            select: true,
+            multiArray: [
+              multiArray[0],
+              pickerList[index1]
+            ],
+            multiIndex: [index1, index2],
+            name,
+            date,
+            region,
+            call,
+            desc,
+            imageList: JSON.parse(imgList),
+            id,
+          })
+        })
+    }
     const call = wx.getStorageSync('call')
     if (call) {
       this.setData({

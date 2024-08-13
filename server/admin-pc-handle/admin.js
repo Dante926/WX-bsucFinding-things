@@ -249,6 +249,55 @@ const public_handle = {
 
 
     },
+
+    adminauth: (req, res) => {
+        const { username } = req.body;
+        const sqlStr = 'select * from SuperUsers where username = ?'
+        db.query(sqlStr, [username], (err, result) => {
+            if (result[0].role === 0) {
+                return res.send({
+                    status: 200,
+                    message: 'Success',
+                    data: result
+                });
+            } else {
+                return res.send({
+                    status: 500,
+                    message: 'NoPower',
+                })
+            }
+        })
+    },
+
+    editadmin: (req, res) => {
+        const { id, username, password, role, nickname } = req.body;
+        console.log(req.body);
+        // 查询用户名是否存在
+        const sqlCheck = 'select * from SuperUsers where username = ? and id != ?'
+        /* 
+            添加id !=1 是为了可以修改我们自己本身的信息
+            当我们自己修改自己的信息时如果没有id!=1的话，就会导致查询用户名时显示用户名已存在
+        */
+        db.query(sqlCheck, [username, id], (err, result) => {
+            // 查询用户名失败
+            if (err) return res.send({ status: 500, message: '用户名查询失败', err });
+            // 用户名已存在
+            if (result.length > 0) {
+                return res.send({ status: 500, message: '用户名已存在' });
+            } else {
+                /* 根据id更新用户更改数据 */
+                const sqlStr = 'update SuperUsers set username = ?,password = ?,role = ?,nickname = ? where id = ?'
+                db.query(sqlStr, [username, password, role, nickname, id], (err, result) => {
+                    if (err) return res.send({ status: 500, message: '编辑失败' })
+                    return res.send({
+                        status: 200,
+                        message: 'Success',
+                        data: result
+                    });
+                })
+            }
+        })
+    }
 }
 
 module.exports = public_handle

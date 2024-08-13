@@ -1,7 +1,7 @@
 <view class="body">
   <view class="top">
     <image src="../../images/退出.png" class="top-delete" bindtap="backindex" />
-    <button class="top-btn" size="mini" bindtap="toPublish">发布</button>
+    <button class="top-btn" size="mini" bindtap="toPublish">{{id ? '修改': '发布'}}</button>
   </view>
 
   <view class="container">
@@ -50,13 +50,13 @@
       <view class="input-item">
         <text class="input-list-text">地点:</text>
         <input value="{{region}}" bindinput="getRegion" placeholder="请输入丢失/拾取地点 " type="text" />
-        <view  wx:if="{{check_region}}" class="error-tips">请输入点的：东合校区或澄碧校区</view>
+        <view wx:if="{{check_region}}" class="error-tips">请输入点的：东合校区或澄碧校区</view>
       </view>
       <!-- 如何联系? -->
       <view class="input-item">
         <text class="input-list-text">联系:</text>
-        <input value="{{call}}" bindinput="getCall"  placeholder="如何联系您?" type="text" />
-        <view  wx:if="{{check_call}}" class="error-tips">请输入联系方式电话或微信或QQ</view>
+        <input value="{{call}}" bindinput="getCall" placeholder="如何联系您?" type="text" />
+        <view wx:if="{{check_call}}" class="error-tips">请输入联系方式电话或微信或QQ</view>
       </view>
     </view>
     <!-- 详细描述 -->
@@ -65,7 +65,7 @@
       <image bindtap="clearDesc" wx:if="{{desc.length > 0}}" src="../../images/删除操作.png" class="desc-image" />
     </view>
     <view wx:if="{{check_desc}}" class="error-tips">
-    请输入详细描述
+      请输入详细描述
     </view>
 
     <!-- 上传图片 -->

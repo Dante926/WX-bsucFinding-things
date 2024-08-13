@@ -26,6 +26,7 @@
             </el-table-column>
             <el-table-column prop="edit" label="操作">
                 <template slot-scope="scope">
+                    <el-button type="primary" @click="editData(scope.row)" style="margin-right: 20px">编辑</el-button>
                     <el-popconfirm title="重要数据，确认删除?" @confirm="deleteData(scope.row.id)">
                         <el-button type="danger" slot="reference">删除</el-button>
                     </el-popconfirm>
@@ -38,7 +39,7 @@
         </el-pagination>
 
         <!-- 新增管理员对话框 -->
-        <el-dialog title="添加管理员" :visible.sync="dialogVisible" width="30%">
+        <el-dialog @close="handleClose" title="添加管理员" :visible.sync="dialogVisible" width="30%">
             <span>用户名</span>
             <!-- 用户名 -->
             <el-input class="margin" placeholder="请输入用户名" v-model="username" clearable>
@@ -84,48 +85,107 @@ export default {
             username: '',
             password: '',
             nickname: '',
-            radio: 0
+            radio: 0,
+            id: ''
         }
     },
     created() {
         this.getTabData();
     },
     methods: {
+        handleClose() {
+            this.username = ''
+            this.password = ''
+            this.nickname = ''
+            this.id = ''
+        },
+        editData(scope) {
+            console.log(scope);
+            const { id, username, password, role, nickname } = scope;
+            this.username = username;
+            this.password = password;
+            this.role = role === '超级管理员' ? 0 : 1;
+            this.nickname = nickname;
+            this.id = id
+            this.dialogVisible = true;
+        },
+        // 编辑和添加复用
         async addadmin() {
             const params = {
                 username: this.username,
                 password: this.password,
                 nickname: this.nickname,
-                role: this.radio
+                role: this.radio,
+                id: this.id,
             }
             console.log(params);
 
-            if (!params.username || !params.password || !params.nickname) {
-                this.$message({
-                    type: 'error',
-                    message: '必填项未填写...'
-                })
-                return;
-            }
-            const result = await this.$http.post('/adminapi/addadmin', params)
-            if (result.data.message == 'Success') {
-                // 提示删除成功
-                this.$message({
-                    message: '添加成功',
-                    type: 'success'
-                })
-                this.dialogVisible = false;
-                this.getTabData();
-            } else if (result.data.message == '用户名已存在') {
-                this.$message({
-                    message: '用户名已存在,请重试...',
-                    type: 'error'
-                })
+            if (params.id) {
+                if (!params.username || !params.password || !params.nickname) {
+                    this.$message({
+                        type: 'error',
+                        message: '必填项未填写...'
+                    })
+                    return;
+                }
+                const result = await this.$http.post('/adminapi/editadmin', params)
+                if (result.data.message == 'Success') {
+                    // 提示删除成功
+                    this.$message({
+                        message: '编辑成功',
+                        type: 'success'
+                    })
+                    this.dialogVisible = false;
+                    if (params.id === JSON.parse(localStorage.getItem('userInfo')).id) {
+                        this.getTabData('', params.id);
+                    } else {
+                        this.getTabData();
+                    }
+                    this.id = ''
+                    this.username = ''
+                    this.password = ''
+                    this.nickname = ''
+                    this.getTabData();
+
+                } else if (result.data.message == '用户名已存在') {
+                    this.$message({
+                        message: '用户名已存在,请重试...',
+                        type: 'error'
+                    })
+                } else {
+                    this.$message({
+                        message: '系统错误,编辑失败...',
+                        type: 'error'
+                    })
+                }
             } else {
-                this.$message({
-                    message: '系统错误,添加失败...',
-                    type: 'error'
-                })
+                if (!params.username || !params.password || !params.nickname) {
+                    this.$message({
+                        type: 'error',
+                        message: '必填项未填写...'
+                    })
+                    return;
+                }
+                const result = await this.$http.post('/adminapi/addadmin', params)
+                if (result.data.message == 'Success') {
+                    // 提示删除成功
+                    this.$message({
+                        message: '添加成功',
+                        type: 'success'
+                    })
+                    this.dialogVisible = false;
+                    this.getTabData();
+                } else if (result.data.message == '用户名已存在') {
+                    this.$message({
+                        message: '用户名已存在,请重试...',
+                        type: 'error'
+                    })
+                } else {
+                    this.$message({
+                        message: '系统错误,添加失败...',
+                        type: 'error'
+                    })
+                }
             }
         },
         toSearch() {
@@ -133,7 +193,8 @@ export default {
             const _toSearch = debounce(() => this.getTabData(this.search), 1000);
             _toSearch();
         },
-        async getTabData(search) {
+        async getTabData(search, id) {
+            // 搜索框
             if (search) {
                 const params = {
                     page: this.page,
@@ -159,6 +220,12 @@ export default {
                 const result = await this.$http.post('/adminapi/getadmin', params)
                 const { data, total } = result.data
                 this.tableData = data.map(item => {
+                    if (id && item.id === id) {
+                        /* 这里的if()是为了响应编辑完管理员信息后重新加载缓存用的 */
+                        localStorage.setItem('userInfo', JSON.stringify(item))
+                        // 强制刷新页面(将会把所有页面都过一遍)用来更新home页面对管理员nickname的加载
+                        window.location.reload();
+                    }
                     return {
                         ...item,
                         create_time: formatTime(item.create_time),

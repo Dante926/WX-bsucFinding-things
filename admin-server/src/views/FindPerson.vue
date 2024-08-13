@@ -29,8 +29,9 @@
             </el-table-column>
             <el-table-column prop="edit" label="操作">
                 <template slot-scope="scope">
+                    <!-- 删除操作 -->
                     <el-popconfirm title="重要数据，确认删除?" @confirm="deleteData(scope.row._id)">
-                        <el-button type="danger" slot="reference">删除</el-button>
+                        <el-button style="margin-right: 10px;" type="danger" slot="reference">删除</el-button>
                     </el-popconfirm>
                 </template>
             </el-table-column>
@@ -50,7 +51,8 @@ export default {
             tableData: [],
             page: 1,
             size: 5,
-            total: 0
+            total: 0,
+            ispublish: true
         }
     },
     created() {

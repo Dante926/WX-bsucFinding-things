@@ -1,10 +1,19 @@
-<view class="lose-item">
-  <image class="lose-image" src="{{carddata.imgList[0]}}" />
-  <view class="lose-content">
-    <text class="name">{{carddata.name}}</text>
-    <text class="region">{{carddata.region}}</text>
-    <text class="date">{{carddata.date}}</text>
-    <text class="desc">{{carddata.desc}}</text>
-    <text class="publish-time">{{carddata.time}}</text> 
+<view class="lose-body">
+  <view class="lose-item">
+    <image class="lose-image" src="{{carddata.imgList[0]}}" />
+    <view class="lose-content">
+      <text class="name">{{carddata.name}}</text>
+      <text class="region">{{carddata.region}}</text>
+      <text class="date">{{carddata.date}}</text>
+      <text class="desc">{{carddata.desc}}</text>
+      <text class="publish-time">{{carddata.time}}</text>
+    </view>
+  </view>
+
+  <view class="handle-btn" wx:if="{{handle}}">
+    <view>
+      <button class="update-btn" size="mini" type="primary" catchtap="toUpdata" data-id="carddata.id">修改</button>
+      <button class="delete-btn" size="mini" type="warn" catchtap="toDelete" data-id="carddata.id">删除</button>
+    </view>
   </view>
 </view>

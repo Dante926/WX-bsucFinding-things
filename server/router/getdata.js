@@ -18,4 +18,6 @@ router.post('/getclatwo',public_handle.getclatwo)
 // 搜索框模糊查询数据
 router.post('/getsearch',public_handle.getsearch)
 
+
+
 module.exports = router
