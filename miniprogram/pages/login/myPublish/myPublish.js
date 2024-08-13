@@ -14,7 +14,7 @@ Page({
     list: [],
     select: 0,
   },
-  getUpdata(e){
+  getUpdata(e) {
     const {
       _id
     } = e.currentTarget.dataset.info
@@ -32,24 +32,24 @@ Page({
     const params = {
       _id,
     }
-    const result = ajax('/pubapi/delemypub','post',params)
-    .then(result=>{
-      console.log(result.data);
-      if(result.data.message === 'Success'){
-        wx.showToast({
-          title: '删除成功',
-          icon:'success',
-          success:()=>{
-            this.onLoad();
-          }
-        })
-      }else{
-        wx.showToast({
-          title: '删除失败',
-          icon:'error'
-        })
-      }
-    })
+    const result = ajax('/pubapi/delemypub', 'post', params)
+      .then(result => {
+        console.log(result.data);
+        if (result.data.message === 'Success') {
+          wx.showToast({
+            title: '删除成功',
+            icon: 'success',
+            success: () => {
+              this.onLoad();
+            }
+          })
+        } else {
+          wx.showToast({
+            title: '删除失败',
+            icon: 'error'
+          })
+        }
+      })
 
   },
 

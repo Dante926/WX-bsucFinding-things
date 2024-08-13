@@ -47,19 +47,62 @@ const public_handle = {
     delemypub: (req, res) => {
         const { _id } = req.body;
         console.log(_id);
-        const sqlStr = 'DELETE FROM loseSchema WHERE _id = ?';
-        db.query(sqlStr, [_id], (err, result) => {
-            if (err) return res.send({
-                status: 500,
-                message: 'Error',
-                error: err.message
-            })
-            else return res.send({
-                status: 200,
-                message: 'Success',
-                data: result
-            })
-        })
+        const deleteLoseSchema = 'DELETE FROM loseSchema WHERE _id = ?';
+        const deleteCollection = 'DELETE FROM collection WHERE id = ?';
+
+        // 开始事务
+        db.beginTransaction((err) => {
+            if (err) {
+                return res.send({
+                    status: 500,
+                    message: 'Error starting transaction',
+                    error: err.message
+                });
+            }
+
+            // 删除 loseSchema 表中的记录
+            db.query(deleteLoseSchema, [_id], (err, result) => {
+                if (err) {
+                    return db.rollback(() => {
+                        res.send({
+                            status: 500,
+                            message: 'Error deleting from loseSchema',
+                            error: err.message
+                        });
+                    });
+                }
+
+                // 删除 collection 表中的记录
+                db.query(deleteCollection, [_id], (err, result) => {
+                    if (err) {
+                        return db.rollback(() => {
+                            res.send({
+                                status: 500,
+                                message: 'Error deleting from collection',
+                                error: err.message
+                            });
+                        });
+                    }
+
+                    // 提交事务
+                    db.commit((err) => {
+                        if (err) {
+                            return db.rollback(() => {
+                                res.send({
+                                    status: 500,
+                                    message: 'Error committing transaction',
+                                    error: err.message
+                                });
+                            });
+                        }
+                        res.send({
+                            status: 200,
+                            message: 'Success'
+                        });
+                    });
+                });
+            });
+        });
     },
 
     getpubdata: (req, res) => {

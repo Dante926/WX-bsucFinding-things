@@ -33,7 +33,7 @@ const public_handle = {
     getcol: (req, res) => {
         const { id, openid } = req.body;
         if (id && openid) {
-            const sqlStr = 'SELECT * FROM collection WHERE id=? AND openid=?'
+            const sqlStr = 'SELECT * FROM collection WHERE id=? AND openid=? ORDER BY time DESC;'
             db.query(sqlStr, [id, openid], (err, result) => {
                 // 如果查询为空则未被收藏
                 if (result.length === 0) {
@@ -85,7 +85,13 @@ const public_handle = {
     getcoldata: (req, res) => {
         const { openid, type } = req.body;
         // 通过openid和type字段查询数据
-        const sqlStr = 'SELECT * FROM collection WHERE openid=? AND type=?'
+        const sqlStr = `
+        SELECT * 
+        FROM collection 
+        WHERE openid = ? AND type = ? 
+        ORDER BY STR_TO_DATE(time, '%Y/%m/%d %H:%i') DESC
+    `;
+
         db.query(sqlStr, [openid, type], (err, result) => {
             if (err) {
                 return res.send({

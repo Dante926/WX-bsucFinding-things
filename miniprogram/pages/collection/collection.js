@@ -55,7 +55,7 @@ Page({
         }));
         this.setData({
           list: modifiedData,
-          login:!!wx.getStorageSync('login')
+          login: !!wx.getStorageSync('login')
         })
       }
     })
