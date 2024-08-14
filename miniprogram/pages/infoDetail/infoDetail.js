@@ -1,4 +1,8 @@
 // pages/infoDetail/infoDetail.js
+import {
+  ajax,
+  formatTime
+} from '../../utils/index'
 Page({
 
   /**
@@ -7,6 +11,89 @@ Page({
   data: {
     background: ['../../images/banner1.jpg', '../../images/banner2.jpg'],
     collectionIcon: ['../../images/收藏.png', '../../images/收藏红.png'],
+    info: {},
+    comment: '',
+    commentList: {},
+    _id: ''
+  },
+
+  // 获取评论区数据
+  getcommentdata() {
+    const _id = this.data._id ? this.data._id : this.data.info.id;
+    const params = {
+      _id,
+    }
+    const result = ajax('/pubapi/getcomment', 'post', params)
+      .then(result => {
+        const {
+          commentList
+        } = result.data.data;
+        if (commentList) {
+          if (result.data.message === 'Success') {
+            this.setData({
+              commentList: JSON.parse(commentList).map(item => ({
+                ...item,
+                time: formatTime(item.time)
+              })),
+              comment: ''
+            })
+            console.log(this.data.commentList);
+          }
+        }
+      })
+  },
+
+  async submitComment() {
+    const {
+      comment,
+      info
+    } = this.data;
+    const {
+      _id
+    } = info
+    if (comment.trim().length === 0) {
+      wx.showToast({
+        title: '您输入的内容为空',
+        icon: 'none'
+      })
+      return;
+    } else {
+      const {
+        avatarUrl,
+        nickName,
+      } = wx.getStorageSync('userInfo')
+      const params = {
+        avatarUrl,
+        nickName,
+        content: comment,
+        time: new Date().getTime(),
+        _id
+      }
+      const result = await ajax('/pubapi/upcomment', 'post', params)
+        .then(result => {
+          console.log(result.data.message);
+          if (result.data.message === 'Success') {
+            wx.showToast({
+              title: '评论成功',
+              icon: 'none'
+            })
+            // this.onLoad();
+            this.getcommentdata();
+          } else {
+            wx.showToast({
+              title: '评论失败',
+              icon: 'none'
+            })
+          }
+        })
+    }
+  },
+
+  getcomment(e) {
+    console.log(e.detail.value);
+    this.setData({
+      comment: e.detail.value
+    })
   },
 
   //获得联系功能
@@ -121,6 +208,16 @@ Page({
     const {
       info
     } = options;
+
+    // 设置_id是为了能获取到评论区数据
+    const {
+      _id
+    } = JSON.parse(info)
+    this.setData({
+      _id
+    })
+    // ------------end-------------
+
     let parsedInfo = JSON.parse(info); // 将 JSON 字符串解析为 JavaScript 对象
     // 如果imgList是字符串则转变为真正的数组
     if (typeof parsedInfo.imgList === 'string') {
@@ -158,6 +255,9 @@ Page({
         }
       }
     });
+
+    this.getcommentdata();
+
   },
 
 

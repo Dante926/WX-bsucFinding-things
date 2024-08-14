@@ -153,8 +153,69 @@ const public_handle = {
             }
             res.status(200).send({ status: 200, message: 'Success', data: result });
         });
-    }
+    },
 
+    upcomment: (req, res) => {
+        const { avatarUrl, nickName, content, time, _id } = req.body;
+
+        // 创建新的评论对象
+        const newComment = {
+            avatarUrl,
+            nickName,
+            content,
+            time,
+        };
+
+        // 查询现有评论列表
+        const selectSql = 'SELECT commentList FROM loseSchema WHERE _id = ?';
+        db.query(selectSql, _id, (err, result) => {
+            if (err) return res.send({ status: 500, message: 'Failed', error: err.message });
+            if (result.length === 0) return res.send({ status: 404, message: 'Not Found' });
+
+            let commentList = [];
+            try {
+                // 解析现有评论列表
+                if (result[0].commentList) {
+                    commentList = JSON.parse(result[0].commentList);
+
+                    // 如果解析后的数据不是数组，将其初始化为空数组
+                    if (!Array.isArray(commentList)) {
+                        console.warn('commentList is not an array, initializing as empty array.');
+                        commentList = [];
+                    }
+                }
+            } catch (parseErr) {
+                return res.send({ status: 500, message: 'Failed to parse commentList', error: parseErr.message });
+            }
+
+            // 添加新评论到评论列表
+            commentList.push(newComment);
+
+            // 将评论列表转换为 JSON 字符串
+            const commentListStr = JSON.stringify(commentList);
+
+            // 更新数据库中的评论列表
+            const updateSql = 'UPDATE loseSchema SET commentList = ? WHERE _id = ?';
+            db.query(updateSql, [commentListStr, _id], (err, result) => {
+                if (err) return res.send({ status: 500, message: 'Failed', error: err.message });
+                if (result.affectedRows !== 1) return res.send({ status: 500, message: 'Failed' });
+                res.send({ status: 200, message: 'Success', data: newComment });
+            });
+        });
+    },
+
+
+    getcomment: (req, res) => {
+        const { _id } = req.body;
+        console.log(_id);
+
+        const sqlStr = 'SELECT commentList FROM loseSchema WHERE _id = ?';
+        db.query(sqlStr, _id, (err, result) => {
+            if (err) return res.send({ status: 500, message: 'Failed', error: err.message });
+            if (result.length !== 1) return res.send({ status: 500, message: 'Failed' });
+            res.send({ status: 200, message: 'Success', data: result[0] });
+        })
+    }
 }
 
 module.exports = public_handle

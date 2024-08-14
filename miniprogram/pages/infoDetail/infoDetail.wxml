@@ -23,11 +23,35 @@
     </view>
   </view>
 
+
   <!-- 描述信息 -->
   <view class="desc item">
     <view class="desc-text1">详细描述：</view>
     <view class="desc-text2">{{info.desc}}</view>
   </view>
+
+  <!-- 评论区 -->
+  <view class="comment">
+    <view class="title">评论区</view>
+    <view class="comment-list">
+      <view class="comment-item" wx:for="{{commentList}}" wx:key="index">
+        <view class="comment-item-left">
+          <image class="avatar" src="{{item.avatarUrl}}" />
+          <view class="content">
+            <text class="nickname">{{item.nickName}}</text>
+            <text>{{item.content}}</text>
+          </view>
+        </view>
+        <view class="comment-item-right">
+          <text>{{item.time}}</text>
+        </view>
+      </view>
+    </view>
+
+    <textarea class="comment-textarea" placeholder="请输入评论内容" value="{{comment}}" bindinput="getcomment" />
+    <button class="comment-btn" type="primary" size="mini" bindtap="submitComment">发送</button>
+  </view>
+
 
   <!-- 联系收藏 -->
   <view class="bottom">

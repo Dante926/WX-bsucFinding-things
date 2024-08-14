@@ -34,7 +34,7 @@ app.post('/uploadImg', uploads.array('file', 6), (req, res) => {
     })
 })
 
-// 发布模块路由
+// 发布模块
 const publicRouter = require('./router/public')
 app.use('/pubapi', publicRouter)
 

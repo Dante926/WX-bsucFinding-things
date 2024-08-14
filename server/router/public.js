@@ -10,5 +10,9 @@ router.post('/delemypub',public_handle.delemypub)
 router.post('/getpubdata',public_handle.getpubdata)
 // 小程序端修改发布内容
 router.post('/updatapub',public_handle.updatapub)
+// 小程序发布评论模块
+router.post('/upcomment',public_handle.upcomment)
+// 获取小程序评论信息
+router.post('/getcomment',public_handle.getcomment)
 
 module.exports = router
