@@ -215,7 +215,56 @@ const public_handle = {
             if (result.length !== 1) return res.send({ status: 500, message: 'Failed' });
             res.send({ status: 200, message: 'Success', data: result[0] });
         })
+    },
+
+    confirm: (req, res) => {
+        const { desc, img_url, openid, _id } = req.body;
+
+        // 数据验证
+        if (typeof desc !== 'string' || typeof img_url !== 'string' || typeof openid !== 'string') {
+            return res.send({ status: 400, message: 'Invalid input' });
+        }
+
+        // 创建新的认领信息对象
+        const newClaimInfo = { desc, img_url, openid };
+
+        // 查询现有评论列表
+        const selectSql = 'SELECT claimInfo FROM loseSchema WHERE _id = ?';
+        db.query(selectSql, _id, (err, result) => {
+            if (err) return res.send({ status: 500, message: 'Failed', error: err.message });
+            if (result.length === 0) return res.send({ status: 404, message: 'Not Found' });
+
+            let claimInfo = [];
+            try {
+                if (result[0].claimInfo) {
+                    claimInfo = JSON.parse(result[0].claimInfo);
+
+                    // 如果解析后的数据不是数组，将其初始化为空数组
+                    if (!Array.isArray(claimInfo)) {
+                        console.warn('claimInfo is not an array, initializing as empty array.');
+                        claimInfo = [];
+                    }
+                }
+            } catch (parseErr) {
+                return res.send({ status: 500, message: 'Failed to parse claimInfo', error: parseErr.message });
+            }
+
+            // 添加新评论到评论列表
+            claimInfo.push(newClaimInfo);
+
+            // 将评论列表转换为 JSON 字符串
+            const claimInfoStr = JSON.stringify(claimInfo);
+
+            // 更新数据库中的评论列表和状态
+            const updateSql = 'UPDATE loseSchema SET claimInfo = ?, status = 1 WHERE _id = ?';
+            db.query(updateSql, [claimInfoStr, _id], (err, result) => {
+                if (err) return res.send({ status: 500, message: 'Failed', error: err.message });
+                if (result.affectedRows !== 1) return res.send({ status: 500, message: 'Failed' });
+                return res.send({ status: 200, message: 'Success', data: newClaimInfo });
+            });
+        });
     }
+
 }
 
 module.exports = public_handle

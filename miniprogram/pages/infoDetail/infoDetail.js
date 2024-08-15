@@ -14,7 +14,125 @@ Page({
     info: {},
     comment: '',
     commentList: {},
-    _id: ''
+    _id: '',
+    showModal: false,
+    desc: '',
+    img_url: ''
+  },
+
+  // 弹窗中上传图片
+  uploadImg() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image', 'video'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const {
+          tempFiles
+        } = res;
+        const uploadPromises = tempFiles.map((item) => {
+          return new Promise((resolve, reject) => {
+            wx.uploadFile({
+              url: 'http://127.0.0.1:8082/uploadImg',
+              filePath: tempFiles[0].tempFilePath,
+              name: 'file',
+              success: (res) => {
+                resolve(res);
+              },
+              fail: (err) => {
+                reject(err);
+              }
+            });
+          });
+        });
+
+        Promise.all(uploadPromises).then((responses) => {
+          responses.forEach((response) => {
+            const {
+              data
+            } = response;
+            const resultData = JSON.parse(data);
+            const path = resultData.data[0].filename;
+            const _path = `http://127.0.0.1:8082/${path}`;
+            console.log(_path);
+            this.setData({
+              img_url: _path,
+            });
+          });
+
+        }).catch((error) => {
+          console.error('上传失败:', error);
+        });
+      }
+    });
+  },
+
+  // 获取弹窗描述内容
+  getDesc(e) {
+    this.setData({
+      desc: e.detail.value
+    })
+  },
+
+  // 确认认领
+  submitmodal() {
+    const {
+      desc,
+      img_url,
+      info,
+    } = this.data;
+    const _id = info._id ? info._id : info.id;
+    if (!desc || !img_url) {
+      wx.showToast({
+        title: '存在必填项未填',
+        icon: 'none'
+      })
+      return;
+    }
+
+    const params = {
+      desc,
+      img_url,
+      openid: wx.getStorageSync('openid'),
+      _id
+    }
+
+    ajax('/pubapi/confirm', 'post', params)
+      .then(result => {
+        console.log(result.data);
+        if (result.data.message === 'Success') {
+          this.toConfirm()
+          wx.switchTab({
+            url: '../index/index',
+            success: () => {
+              wx.showToast({
+                title: '提交成功,待审核',
+                icon: 'loading'
+              })
+            }
+          })
+        } else {
+          wx.showToast({
+            title: '提交失败,系统错误',
+            icon: 'error'
+          })
+        }
+      })
+  },
+
+  // 弹窗显示
+  toConfirm() {
+    // console.log(this.data.info.status);
+    if (this.data.info.status === 0) {
+      this.setData({
+        showModal: !this.data.showModal
+      })
+    } else {
+      wx.showToast({
+        title: '认领审核中...',
+        icon: 'loading'
+      })
+    }
   },
 
   // 获取评论区数据
@@ -208,6 +326,7 @@ Page({
     const {
       info
     } = options;
+    console.log(info);
 
     // 设置_id是为了能获取到评论区数据
     const {

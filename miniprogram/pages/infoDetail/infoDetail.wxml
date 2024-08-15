@@ -53,16 +53,46 @@
   </view>
 
 
-  <!-- 联系收藏 -->
+  <!-- 联系 认领 收藏/功能-->
   <view class="bottom">
+    <!-- 获得联系 -->
     <view class="bottom-left" bindtap="getCall">
       <image class="icon-comment" src="../../images/联系.png" />
       <text class="bottom-left-text">取得联系</text>
     </view>
 
+    <!-- 认领功能 -->
+    <!-- 待认领 -->
+    <view wx:if="{{info.status == 0}}" class="bottom-right confirm" bindtap="toConfirm">
+      <image src="../../images/认领.png" class="icon-collection" />
+      <text>去认领</text>
+    </view>
+    <!-- 认领审核状态 -->
+    <view wx:else="" class="bottom-right confirm" bindtap="toConfirm">
+      <image src="../../images/审核中.png" class="icon-collection" />
+      <text>审核中</text>
+    </view>
+
+
+    <!-- 收藏功能 -->
     <view class="bottom-right" bindtap="toCollection">
       <image src="{{collectionIcon[0]}}" class="icon-collection" />
       <text>收藏</text>
+    </view>
+  </view>
+
+  <!-- 认领弹窗 -->
+  <view class="modal" wx:if="{{showModal}}">
+    <view class="label">信息描述:</view>
+    <textarea class="textarea" placeholder="请输入描述内容" value="{{desc}}" bindinput="getDesc" />
+    <view class="label">相关证明:</view>
+    <button class="upload-btn" wx:if="{{img_url.length === 0 }}" bindtap='uploadImg'>上传</button>
+    <image class="upload-img" wx:else src="{{img_url}}" />
+
+    <!-- 弹窗操作 -->
+    <view class="btn-list">
+      <button bindtap="toConfirm" size="mini" type="warn">取消</button>
+      <button bindtap="submitmodal" size="mini" type="primary">确定</button>
     </view>
   </view>
 </view>

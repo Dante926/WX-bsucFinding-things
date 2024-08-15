@@ -14,5 +14,7 @@ router.post('/updatapub',public_handle.updatapub)
 router.post('/upcomment',public_handle.upcomment)
 // 获取小程序评论信息
 router.post('/getcomment',public_handle.getcomment)
+// 小程序认领功能
+router.post('/confirm',public_handle.confirm)
 
 module.exports = router

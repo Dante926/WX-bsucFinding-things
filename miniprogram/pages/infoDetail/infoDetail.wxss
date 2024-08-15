@@ -73,10 +73,15 @@
   height: 45rpx;
 }
 
+
 .bottom-right {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.confirm {
+  margin-left: 175rpx;
 }
 
 .bottom-left-text {
@@ -146,19 +151,67 @@
 
 .comment .comment-btn {
   position: absolute;
-  bottom: 143rpx; 
+  bottom: 143rpx;
   right: 24rpx;
   border-radius: 20rpx;
-  color: #fff; 
+  color: #fff;
   z-index: 11;
 }
 
-.nickname{
+.nickname {
   font-size: 30rpx;
   color: #000000;
 }
 
-.comment-item-right{
+.comment-item-right {
   font-size: 26rpx;
   color: #999;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background: rgb(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  padding: 40rpx;
+  box-sizing: border-box;
+  width: 90%;
+  border-radius: 40rpx;
+}
+
+.modal .label {
+  width: 100%;
+  color: #000000;
+  font-weight: 600;
+  font-size: 36rpx;
+}
+
+.textarea {
+  width: 100%;
+  border: 1rpx solid #999;
+  border-radius: 5rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  margin: 20rpx 0;
+}
+
+.btn-list {
+  display: flex;
+  margin-top: 20rpx;
+}
+
+.modal .upload-btn {
+  margin: 20rpx auto;
+  background-color: #fe2442;
+  color: #fff;
+}
+
+.modal .upload-img {
+  width: 40%;
+  height: 280rpx;
+  margin: 20rpx 0;
 }
