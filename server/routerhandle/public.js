@@ -46,7 +46,6 @@ const public_handle = {
 
     delemypub: (req, res) => {
         const { _id } = req.body;
-        console.log(_id);
         const deleteLoseSchema = 'DELETE FROM loseSchema WHERE _id = ?';
         const deleteCollection = 'DELETE FROM collection WHERE id = ?';
 
@@ -107,11 +106,9 @@ const public_handle = {
 
     getpubdata: (req, res) => {
         const { id } = req.body;
-        console.log(id);
 
         const sqlStr = 'SELECT * FROM loseSchema WHERE _id = ?'
         db.query(sqlStr, [id], (err, result) => {
-            console.log(result);
 
             if (err) return res.send({
                 status: 500,
@@ -204,7 +201,6 @@ const public_handle = {
         });
     },
 
-
     getcomment: (req, res) => {
         const { _id } = req.body;
         console.log(_id);
@@ -263,8 +259,19 @@ const public_handle = {
                 return res.send({ status: 200, message: 'Success', data: newClaimInfo });
             });
         });
-    }
+    },
 
+    toconfirm: (req, res) => {
+        const { _id, status } = req.body;
+        // 根据id更改status状态
+        const sqlStr = `UPDATE loseSchema SET status = ? WHERE _id = ?`;
+        db.query(sqlStr, [status, _id], (err, result) => {
+            if (err) return res.send({ status: 500, message: 'Error' });
+            if (result.affectedRows === 1) {
+                return res.send({ status: 200, message: 'Success' });
+            }
+        });
+    }
 }
 
 module.exports = public_handle

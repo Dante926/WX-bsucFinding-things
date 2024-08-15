@@ -20,6 +20,14 @@ Page({
     const {
       info
     } = e.currentTarget.dataset;
+    console.log(info.status);
+    if(info.status == 2){
+      wx.showToast({
+        title: '该物品已被认领,若有疑惑请联系管理员...',
+        icon:'none'
+      })
+      return;
+    }
     wx.navigateTo({
       url: `../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
     })
@@ -44,7 +52,7 @@ Page({
       const {
         select
       } = this.data;
-  
+
       wx.request({
         url: 'http://127.0.0.1:8082/getapi/getdata',
         method: 'POST',
@@ -79,13 +87,13 @@ Page({
         }
       });
       return;
-    }else{
+    } else {
       wx.redirectTo({
         url: '../reallogin/reallogin',
       })
     }
 
-    
+
   },
 
   /**

@@ -18,6 +18,12 @@
             </el-table-column>
             <el-table-column prop="desc" label="描述">
             </el-table-column>
+            <el-table-column prop="status" label="认领状态">
+                <template slot-scope="scope">
+                    <p>{{ scope.row.status == 0 ? '未认领' : (scope.row.status == 1 ? '待认领' : '已认领') }}</p>
+                    <el-button v-if="scope.row.status == 1" @click="$event => showClaimModal(scope)">审核</el-button>
+                </template>
+            </el-table-column>
             <el-table-column label="相关图片" width="120">
                 <template slot-scope="scope">
                     <el-image style="width: 100px; height: 100px" :src="scope.row.imgList[0]"
@@ -40,7 +46,24 @@
             :page-sizes="[5, 10, 15, 20]" :page-size="size" layout="total, sizes, prev, pager, next, jumper"
             :total="total">
         </el-pagination>
+
+        <!-- 审核对话框 -->
+        <el-dialog @close="handleClose" title="认领审核" :visible.sync="dialogVisible" width="30%">
+            <div class="dialog-claim-container">
+                <!-- 描述信息 -->
+                <p class="dialogtext">描述信息:</p>
+                <p class="desc">{{ claimData.desc }}</p>
+                <!-- 物品图片 -->
+                <p class="dialogtext">物品图片:</p>
+                <img class="img" :src="claimData.img_url" alt="">
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="$event => toClaim(1)">等待审核</el-button>
+                <el-button type="primary" @click="$event => toClaim(2)">认领成功</el-button>
+            </span>
+        </el-dialog>
     </div>
+
 </template>
 
 <script>
@@ -52,14 +75,62 @@ export default {
             page: 1,
             size: 5,
             total: 0,
-            ispublish: true
+            ispublish: true,
+            dialogVisible: false,
+            claimData: {},
+            _id: '',
         }
     },
     created() {
         this.getTabData();
     },
     methods: {
+        // 认领状态
+        async toClaim(status) {
+
+            const params = {
+                _id: this._id,
+                status
+            }
+            const { data } = await this.$http.post('/pubapi/toconfirm', params)
+            if (data.message === 'Success') {
+                this.$message({
+                    message: '操作完成',
+                    type: 'success'
+                });
+                this.dialogVisible = false;
+                this.claimData = ''
+                this._id = ''
+                this.getTabData();
+            } else {
+                this.$message({
+                    message: '操作失败,请重试',
+                    type: 'error'
+                });
+            }
+
+        },
+
+        // 关闭弹窗回调
+        handleClose() {
+
+        },
+
+        // 审核弹窗
+        showClaimModal(scope) {
+            this.dialogVisible = true
+            const { _id } = scope.row
+            this.claimInfo = JSON.parse(scope.row.claimInfo)
+            // 給显示的数据赋值
+            const { desc, img_url } = this.claimInfo[0]
+            const claimData = {
+                desc, img_url
+            }
+            this._id = _id
+            this.claimData = claimData
+        },
         async getTabData() {
+            
             const params = {
                 type: 0,
                 page: this.page,
@@ -136,5 +207,24 @@ export default {
     h2 {
         margin-bottom: 20px;
     }
+}
+
+.dialog-claim-container {
+    display: flex;
+    flex-direction: column;
+
+    .img {
+        widows: 100%;
+    }
+}
+
+.dialogtext {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.desc {
+    padding-right: 20px;
 }
 </style>

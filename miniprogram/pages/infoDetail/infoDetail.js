@@ -54,7 +54,6 @@ Page({
             const resultData = JSON.parse(data);
             const path = resultData.data[0].filename;
             const _path = `http://127.0.0.1:8082/${path}`;
-            console.log(_path);
             this.setData({
               img_url: _path,
             });
@@ -99,14 +98,13 @@ Page({
 
     ajax('/pubapi/confirm', 'post', params)
       .then(result => {
-        console.log(result.data);
         if (result.data.message === 'Success') {
           this.toConfirm()
           wx.switchTab({
             url: '../index/index',
             success: () => {
               wx.showToast({
-                title: '提交成功,待审核',
+                title: '待审核...',
                 icon: 'loading'
               })
             }
@@ -122,15 +120,19 @@ Page({
 
   // 弹窗显示
   toConfirm() {
-    // console.log(this.data.info.status);
     if (this.data.info.status === 0) {
       this.setData({
         showModal: !this.data.showModal
       })
-    } else {
+    } else if (this.data.info.status === 1) {
       wx.showToast({
         title: '认领审核中...',
         icon: 'loading'
+      })
+    } else {
+      wx.showToast({
+        title: '已完成认领,请勿重复操作',
+        icon: 'none'
       })
     }
   },
@@ -155,7 +157,6 @@ Page({
               })),
               comment: ''
             })
-            console.log(this.data.commentList);
           }
         }
       })
@@ -189,7 +190,6 @@ Page({
       }
       const result = await ajax('/pubapi/upcomment', 'post', params)
         .then(result => {
-          console.log(result.data.message);
           if (result.data.message === 'Success') {
             wx.showToast({
               title: '评论成功',
@@ -208,7 +208,6 @@ Page({
   },
 
   getcomment(e) {
-    console.log(e.detail.value);
     this.setData({
       comment: e.detail.value
     })
@@ -326,7 +325,6 @@ Page({
     const {
       info
     } = options;
-    console.log(info);
 
     // 设置_id是为了能获取到评论区数据
     const {

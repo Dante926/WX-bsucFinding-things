@@ -16,5 +16,7 @@ router.post('/upcomment',public_handle.upcomment)
 router.post('/getcomment',public_handle.getcomment)
 // 小程序认领功能
 router.post('/confirm',public_handle.confirm)
+// 后台管理系统审核认证
+router.post('/toconfirm',public_handle.toconfirm)
 
 module.exports = router

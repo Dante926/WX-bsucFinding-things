@@ -16,4 +16,8 @@
       <button class="delete-btn" size="mini" type="warn" catchtap="toDelete" data-id="carddata.id">删除</button>
     </view>
   </view>
+
+  <view class="mask" wx:if="{{carddata.status == 2}}">
+    <text class="mask-text">已认领</text>
+  </view>
 </view>

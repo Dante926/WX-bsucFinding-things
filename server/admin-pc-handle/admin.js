@@ -20,7 +20,7 @@ const public_handle = {
 
         // 查询符合条件的所有记录
         const sqlCount = 'SELECT COUNT(*) AS total FROM loseSchema WHERE type = ?';
-        const sqlData = 'SELECT * FROM loseSchema WHERE type = ? LIMIT ? OFFSET ?';
+        const sqlData = 'SELECT * FROM loseSchema WHERE type = ? ORDER BY time DESC LIMIT ? OFFSET ?';
 
         // 执行查询记录总数的 SQL 查询
         db.query(sqlCount, [type], (err, countResults) => {

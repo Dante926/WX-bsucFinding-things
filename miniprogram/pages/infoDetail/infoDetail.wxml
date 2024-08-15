@@ -70,7 +70,8 @@
     <!-- 认领审核状态 -->
     <view wx:else="" class="bottom-right confirm" bindtap="toConfirm">
       <image src="../../images/审核中.png" class="icon-collection" />
-      <text>审核中</text>
+      <text wx:if="{{info.status == 1}}">审核中</text>
+      <text wx:else="{{info.status == 2}}">已认领</text>
     </view>
 
 
@@ -80,6 +81,9 @@
       <text>收藏</text>
     </view>
   </view>
+
+<!-- 背景遮罩 -->
+<view class="modal-overlay" wx:if="{{showModal}}" bindtap="hideModal"></view>
 
   <!-- 认领弹窗 -->
   <view class="modal" wx:if="{{showModal}}">
