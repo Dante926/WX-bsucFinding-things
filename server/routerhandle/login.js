@@ -32,7 +32,6 @@ const public_handle = {
 
     login: (req, res) => {
         const { username, password } = req.body;
-        console.log(username, password);
         const sqlStr = 'select * from userSchema where username = ?'
         db.query(sqlStr, username, (err, result) => {
             if (err) return res.send({ status: 500, message: '登录失败', data: err })

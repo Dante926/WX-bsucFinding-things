@@ -19,8 +19,7 @@ const upload = multer.diskStorage({
         cb(null, './public/img/')
     },
     filename: function (req, file, cb) {
-        const type = file.originalname.replace(/.+\./, '');
-        console.log(type);
+        const type = file.originalname.replace(/.+\./, '');;
         cb(null, v4() + '.' + type)
 
     }

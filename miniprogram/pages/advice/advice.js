@@ -1,4 +1,7 @@
 // feedback.js
+import {
+  ajax
+} from '../../utils/index'
 Page({
   data: {
     name: '',
@@ -19,11 +22,13 @@ Page({
 
   // 提交反馈
   handleSubmit() {
+    
     const {
       name,
       contact,
-      feedback
+      feedback,
     } = this.data;
+
     if (!name || !contact || !feedback) {
       wx.showToast({
         title: '请完整填写反馈信息',
@@ -32,15 +37,35 @@ Page({
       return;
     }
     // 这里可以添加将数据提交到服务器的逻辑
-    
-    wx.showToast({
-      title: '反馈提交成功',
-      icon: 'success'
-    });
-    this.setData({
-      name: '',
-      contact: '',
-      feedback: ''
-    });
+    const params = {
+      name,
+      contact,
+      feedback,
+      openid:wx.getStorageSync('openid'),
+    }
+    ajax('/getapi/pushadvice', 'post', params)
+      .then(result => {
+        console.log(result);
+        if (result.data.message === 'Success') {
+          this.setData({
+            name: '',
+            contact: '',
+            feedback: ''
+          });
+          wx.switchTab({
+            url: '../my/my',
+          })
+          wx.showToast({
+            title: '反馈提交成功',
+            icon: 'success'
+          });
+
+        } else {
+          wx.showToast({
+            title: '反馈失败,请重试...',
+            icon: 'none'
+          })
+        }
+      })
   }
 });

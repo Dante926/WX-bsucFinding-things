@@ -90,7 +90,7 @@ const public_handle = {
         FROM collection 
         WHERE openid = ? AND type = ? 
         ORDER BY STR_TO_DATE(time, '%Y/%m/%d %H:%i') DESC
-    `;
+        `;
 
         db.query(sqlStr, [openid, type], (err, result) => {
             if (err) {
@@ -135,6 +135,30 @@ const public_handle = {
                 return res.send({
                     status: 500,
                     message: '获取数据失败'
+                })
+            }
+            return res.send({
+                status: 200,
+                message: 'Success',
+                data: result
+            })
+        })
+    },
+
+    pushadvice: (req, res) => {
+        const { name, contact, feedback, openid } = req.body
+        // 生成当前北京时间
+        // 获取当前时间并转换为北京时间
+        const now = new Date();
+        const beijingTime = new Date(now.getTime() + (8 * 60 * 60 * 1000)); // UTC+8
+        const time = beijingTime.toISOString().slice(0, 19).replace('T', ' '); // 格式化为 'YYYY-MM-DD HH:MM:SS'
+
+        const sqlStr = `insert into feedback (name,contact,feedback,openid,time) values (?,?,?,?,?)`
+        db.query(sqlStr, [name, contact, feedback, openid, time], (err, result) => {
+            if (err) {
+                return res.send({
+                    status: 500,
+                    message: '反馈数据失败'
                 })
             }
             return res.send({
