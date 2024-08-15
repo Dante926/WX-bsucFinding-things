@@ -1,16 +1,10 @@
-<view class="body">
+<view class="body" wx:if="{{login}}">
   <SearchInput />
 
   <view class="classify-container">
 
     <view class="classify-left">
-      <view 
-      class="classify-left-item {{select === index ? 'classify-select' : ''}}"
-      wx:for="{{asideBar}}" 
-      wx:key="index"
-      data-index="{{index}}"
-      bindtap="selectLeft"
-      >
+      <view class="classify-left-item {{select === index ? 'classify-select' : ''}}" wx:for="{{asideBar}}" wx:key="index" data-index="{{index}}" bindtap="selectLeft">
         <text class="classify-left-text">{{item}}</text>
         <block wx:if="{{select === index}}">
           <view class="classify-line"></view>
@@ -26,4 +20,8 @@
     </view>
 
   </view>
+</view>
+
+<view wx:else="">
+  未进行微信授权，请先进行微信授权...
 </view>

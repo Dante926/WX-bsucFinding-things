@@ -130,7 +130,7 @@ export default {
             this.claimData = claimData
         },
         async getTabData() {
-            
+
             const params = {
                 type: 0,
                 page: this.page,

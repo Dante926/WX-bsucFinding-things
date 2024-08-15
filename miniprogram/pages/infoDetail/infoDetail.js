@@ -17,7 +17,8 @@ Page({
     _id: '',
     showModal: false,
     desc: '',
-    img_url: ''
+    img_url: '',
+    type:''
   },
 
   // 弹窗中上传图片
@@ -325,7 +326,10 @@ Page({
     const {
       info
     } = options;
-
+    const type = JSON.parse(info).type
+    this.setData({
+      type
+    })
     // 设置_id是为了能获取到评论区数据
     const {
       _id

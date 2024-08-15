@@ -12,8 +12,8 @@
     "pages/search/search",
     "pages/publish/publish",
     "pages/classifyList/classifyList",
-    
-    "pages/register/register"
+    "pages/register/register",
+    "pages/advice/advice"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

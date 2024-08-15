@@ -194,7 +194,8 @@ Page({
         text: '其他'
       }]
     ],
-    select: 0
+    select: 0,
+    login:false
   },
   selectLeft(e) {
     const {
@@ -219,7 +220,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // console.log(this.data.rightList[0][0]);
+    this.setData({
+      login:!!wx.getStorageSync('login')
+    })
   },
 
   /**

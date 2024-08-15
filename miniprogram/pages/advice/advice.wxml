@@ -1,0 +1,21 @@
+<!-- feedback.wxml -->
+<view class="container">
+  <view class="header">
+    <text class="title">意见反馈</text>
+  </view>
+  <view class="form">
+    <view class="form-item">
+      <text class="label">您的称呼</text>
+      <input class="input" placeholder="请输入您的称呼" data-field="name" bindinput="handleInputChange" />
+    </view>
+    <view class="form-item">
+      <text class="label">您的联系</text>
+      <input class="input" placeholder="请输入您的联系信息" data-field="contact" bindinput="handleInputChange" />
+    </view>
+    <view class="form-item">
+      <text class="label">反馈内容</text>
+      <textarea class="textarea" placeholder="请输入您的反馈内容" data-field="feedback" bindinput="handleInputChange"></textarea>
+    </view>
+    <button class="submit-button" bindtap="handleSubmit">提交反馈</button>
+  </view>
+</view>

@@ -14,6 +14,7 @@ Page({
     tabList: ["寻主", "寻物"],
     select: 0,
     list: [],
+    login:false
   },
 
   toDetail(e) {
@@ -21,10 +22,10 @@ Page({
       info
     } = e.currentTarget.dataset;
     console.log(info.status);
-    if(info.status == 2){
+    if (info.status == 2) {
       wx.showToast({
         title: '该物品已被认领,若有疑惑请联系管理员...',
-        icon:'none'
+        icon: 'none'
       })
       return;
     }
@@ -52,6 +53,10 @@ Page({
       const {
         select
       } = this.data;
+
+      this.setData({
+        login:!!wx.getStorageSync('login')
+      })
 
       wx.request({
         url: 'http://127.0.0.1:8082/getapi/getdata',

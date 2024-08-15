@@ -24,6 +24,11 @@ Page({
         page: "../login/myInfo/myInfo"
       },
       {
+        url: '../../images/意见反馈.png',
+        text: '意见反馈',
+        page: "../advice/advice"
+      },
+      {
         url: '../../images/my/退出.png',
         text: '退出登入',
       }

@@ -14,11 +14,11 @@
   <!-- 详细信息 -->
   <view class="container">
     <view class="date item">
-      <text class="label">拾到时间</text>
+      <text class="label">{{type == 0 ? '拾到': '丢失'}}时间</text>
       <text>{{info.date}}</text>
     </view>
     <view class="region item">
-      <text class="label">拾到地点</text>
+      <text class="label">{{type == 0 ? '拾到': '丢失'}}地点</text>
       <text>{{info.region}}</text>
     </view>
   </view>
@@ -82,8 +82,8 @@
     </view>
   </view>
 
-<!-- 背景遮罩 -->
-<view class="modal-overlay" wx:if="{{showModal}}" bindtap="hideModal"></view>
+  <!-- 背景遮罩 -->
+  <view class="modal-overlay" wx:if="{{showModal}}" bindtap="hideModal"></view>
 
   <!-- 认领弹窗 -->
   <view class="modal" wx:if="{{showModal}}">
