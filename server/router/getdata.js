@@ -25,4 +25,13 @@ router.post('/pulladvice',public_handle.pulladvice)
 // 删除反馈意见数据
 router.post('/deladvice',public_handle.deladvice)
 
+// 查询轮播图列表数据
+router.post('/pullbanner',public_handle.pullbanner)
+// 新增轮播图数据
+router.post('/pushbanner',public_handle.pushbanner)
+// 删除轮播图数据
+router.post('/delbanner',public_handle.delbanner)
+// 修改轮播图数据
+router.post('/updbanner',public_handle.updbanner)
+
 module.exports = router

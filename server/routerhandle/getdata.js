@@ -216,7 +216,84 @@ const public_handle = {
             }
 
         })
-    }
+    },
+
+    pullbanner: (req, res) => {
+        const sqlStr = 'select * from bannerSchema'
+        db.query(sqlStr, (err, result) => {
+            if (err) {
+                return res.send({
+                    status: 500,
+                    message: '获取数据失败'
+                })
+            } else {
+                return res.send({
+                    status: 200,
+                    message: 'Success',
+                    data: result
+                })
+            }
+        })
+    },
+
+    pushbanner: (req, res) => {
+        const { imgurl, index, title, desc } = req.body
+        const now = new Date();
+        const beijingTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+        const time = beijingTime.toISOString().slice(0, 19).replace('T', ' ');
+        const sqlStr = `insert into bannerSchema (imgurl,index,title,desc,time) values (?,?,?,?,?)`
+        db.query(sqlStr, [imgurl, index, title, desc, time], (err, result) => {
+            if (err) {
+                return res.send({
+                    status: 500,
+                    message: '添加数据失败'
+                })
+            } else {
+                return res.send({
+                    status: 200,
+                    message: 'Success',
+                    data: result
+                })
+            }
+        })
+    },
+
+    delbanner: (req, res) => {
+        const { id } = req.body
+        const sqlStr = `delete from bannerSchema where id = ?`
+        db.query(sqlStr, [id], (err, result) => {
+            if (err) {
+                return res.send({
+                    status: 500,
+                    message: '删除数据失败'
+                })
+            } else {
+                return res.send({
+                    message: 'Success',
+                    status: 200,
+                })
+            }
+        })
+    },
+
+    updbanner: (req, res) => {
+        const { id, imgurl, index, title, desc } = req.body
+        const sqlStr = `update bannerSchema set imgurl = ?,index = ?,title = ?,desc = ? where id = ?`
+        db.query(sqlStr, [imgurl, index, title, desc, id], (err, result) => {
+            if (err) {
+                return res.send({
+                    status: 500,
+                    message: '更新数据失败'
+                })
+            } else {
+                return res.send({
+                    status: 200,
+                    message: 'Success',
+                    data: result
+                })
+            }
+        })
+    },
 }
 
 module.exports = public_handle
