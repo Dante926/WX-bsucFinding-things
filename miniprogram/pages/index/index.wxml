@@ -5,7 +5,7 @@
   <swiper indicator-dots="true" autoplay="true" interval="2000" duration="500">
     <block wx:for="{{background}}" wx:key="*this">
       <swiper-item>
-        <image class="banner-image" src="{{item}}" />
+        <image class="banner-image" src="{{item.imgurl}}" />
       </swiper-item>
     </block>
   </swiper>

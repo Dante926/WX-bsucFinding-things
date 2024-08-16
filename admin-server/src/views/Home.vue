@@ -32,6 +32,10 @@
                             <i class="el-icon-edit-outline"></i>
                             <span slot="title">反馈管理</span>
                         </el-menu-item>
+                        <el-menu-item index="/banner">
+                            <i class="el-icon-picture-outline"></i>
+                            <span slot="title">轮播管理</span>
+                        </el-menu-item>
                     </el-menu></el-aside>
 
                 <el-main><router-view /></el-main>

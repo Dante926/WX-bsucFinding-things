@@ -1,5 +1,6 @@
 // import { it } from 'element-plus/es/locale';
 import {
+  ajax,
   formatTime
 } from '../../utils/index';
 
@@ -10,11 +11,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    background: ['../../images/失物招领封面1.png', '../../images/失物招领封面2.png'],
+    background: [],
     tabList: ["寻主", "寻物"],
     select: 0,
     list: [],
-    login:false
+    login: false
   },
 
   toDetail(e) {
@@ -55,7 +56,7 @@ Page({
       } = this.data;
 
       this.setData({
-        login:!!wx.getStorageSync('login')
+        login: !!wx.getStorageSync('login')
       })
 
       wx.request({
@@ -97,8 +98,6 @@ Page({
         url: '../reallogin/reallogin',
       })
     }
-
-
   },
 
   /**
@@ -117,6 +116,16 @@ Page({
         select: 0
       })
     }
+    ajax('/getapi/pullbanner', 'post')
+      .then(result => {
+        console.log(result);
+        const {data} = result.data
+        console.log(data);
+        this.setData({
+          background:data
+        })
+        console.log(this.data.background);
+      })
     this.onLoad();
   },
 

@@ -28,7 +28,7 @@
                 <template slot-scope="scope">
                     <el-button type="primary" @click="editData(scope.row)" style="margin-right: 20px">编辑</el-button>
                     <el-popconfirm title="重要数据，确认删除?" @confirm="deleteData(scope.row.id)">
-                        <el-button type="danger" slot="reference">删除</el-button>
+                        <el-button v-if="scope.row.id !== userInfo.id" type="danger" slot="reference">删除</el-button>
                     </el-popconfirm>
                 </template>
             </el-table-column>
@@ -86,11 +86,13 @@ export default {
             password: '',
             nickname: '',
             radio: 0,
-            id: ''
+            id: '',
+            userInfo: {}
         }
     },
     created() {
         this.getTabData();
+        this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     },
     methods: {
         handleClose() {

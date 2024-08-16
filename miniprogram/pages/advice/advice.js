@@ -22,7 +22,7 @@ Page({
 
   // 提交反馈
   handleSubmit() {
-    
+
     const {
       name,
       contact,
@@ -41,7 +41,7 @@ Page({
       name,
       contact,
       feedback,
-      openid:wx.getStorageSync('openid'),
+      openid: wx.getStorageSync('openid'),
     }
     ajax('/getapi/pushadvice', 'post', params)
       .then(result => {

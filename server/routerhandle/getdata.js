@@ -219,9 +219,11 @@ const public_handle = {
     },
 
     pullbanner: (req, res) => {
-        const sqlStr = 'select * from bannerSchema'
+        const sqlStr = 'select * from bannerSchema ORDER BY \`index\` ASC'
         db.query(sqlStr, (err, result) => {
             if (err) {
+                console.log(err);
+                
                 return res.send({
                     status: 500,
                     message: '获取数据失败'
@@ -237,25 +239,28 @@ const public_handle = {
     },
 
     pushbanner: (req, res) => {
-        const { imgurl, index, title, desc } = req.body
+        const { imgurl, index, title, desc } = req.body;
         const now = new Date();
         const beijingTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
         const time = beijingTime.toISOString().slice(0, 19).replace('T', ' ');
-        const sqlStr = `insert into bannerSchema (imgurl,index,title,desc,time) values (?,?,?,?,?)`
+        const sqlStr = `INSERT INTO bannerSchema (imgurl, \`index\`, title, \`desc\`, time) VALUES (?, ?, ?, ?, ?)`;
+
         db.query(sqlStr, [imgurl, index, title, desc, time], (err, result) => {
             if (err) {
+                console.log(err);
                 return res.send({
                     status: 500,
-                    message: '添加数据失败'
-                })
+                    message: '添加数据失败',
+                    err
+                });
             } else {
                 return res.send({
                     status: 200,
                     message: 'Success',
-                    data: result
-                })
+                    data: result[0]
+                });
             }
-        })
+        });
     },
 
     delbanner: (req, res) => {
@@ -271,6 +276,7 @@ const public_handle = {
                 return res.send({
                     message: 'Success',
                     status: 200,
+                    data: result[0]
                 })
             }
         })
@@ -278,9 +284,14 @@ const public_handle = {
 
     updbanner: (req, res) => {
         const { id, imgurl, index, title, desc } = req.body
-        const sqlStr = `update bannerSchema set imgurl = ?,index = ?,title = ?,desc = ? where id = ?`
-        db.query(sqlStr, [imgurl, index, title, desc, id], (err, result) => {
+        const now = new Date();
+        const beijingTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+        const time = beijingTime.toISOString().slice(0, 19).replace('T', ' ');
+        const sqlStr = `update bannerSchema set imgurl = ?, \`index\` = ?, title = ?,\`desc\` = ? ,time = ? where id = ?`
+        db.query(sqlStr, [imgurl, index, title, desc, time, id], (err, result) => {
             if (err) {
+                console.log(err);
+
                 return res.send({
                     status: 500,
                     message: '更新数据失败'

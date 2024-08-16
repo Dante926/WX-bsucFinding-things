@@ -21,29 +21,34 @@ const routes = [
     redirect: '/findPerson',
     children: [
       {
-        path:'/findGoods',
-        name:'findGoods',
+        path: '/findGoods',
+        name: 'findGoods',
         component: () => import("../views/FindGoods.vue")
       },
       {
-        path:'/findPerson',
-        name:'findPerson',
+        path: '/findPerson',
+        name: 'findPerson',
         component: () => import("../views/FindPerson.vue")
       },
       {
-        path:'/user',
-        name:'user',
+        path: '/user',
+        name: 'user',
         component: () => import("../views/User.vue")
       },
       {
-        path:'/admin',
-        name:'admin',
+        path: '/admin',
+        name: 'admin',
         component: () => import("../views/Admin.vue")
       },
       {
-        path:'/advice',
-        name:'advice',
+        path: '/advice',
+        name: 'advice',
         component: () => import("../views/Advice.vue")
+      },
+      {
+        path: '/banner',
+        name: 'banner',
+        component: () => import("../views/Banner.vue")
       },
     ],
   },
