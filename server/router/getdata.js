@@ -17,7 +17,12 @@ router.post('/getcoldata',public_handle.getcoldata)
 router.post('/getclatwo',public_handle.getclatwo)
 // 搜索框模糊查询数据
 router.post('/getsearch',public_handle.getsearch)
+
 // 存储反馈意见数据
 router.post('/pushadvice',public_handle.pushadvice)
+// 获取反馈意见数据
+router.post('/pulladvice',public_handle.pulladvice)
+// 删除反馈意见数据
+router.post('/deladvice',public_handle.deladvice)
 
 module.exports = router

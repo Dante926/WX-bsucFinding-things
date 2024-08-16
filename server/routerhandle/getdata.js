@@ -167,6 +167,55 @@ const public_handle = {
                 data: result
             })
         })
+    },
+
+    pulladvice: (req, res) => {
+        const { page, size } = req.body;
+        const offset = (page - 1) * size;
+        const limit = size;
+
+        // 查询符合条件的所有记录
+        const sqlCount = 'SELECT COUNT(*) AS total FROM feedback';
+        const sqlData = 'SELECT * FROM feedback LIMIT ? OFFSET ?';
+
+        // 执行查询记录总数的 SQL 查询
+        db.query(sqlCount, (err, countResults) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            const total = countResults[0].total;
+
+            // 执行查询当前页数据的 SQL 查询
+            db.query(sqlData, [limit, offset], (err, dataResults) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                }
+
+                res.send({
+                    data: dataResults,
+                    total: total
+                });
+            });
+        });
+    },
+
+    deladvice: (req, res) => {
+        const { id } = req.body
+        const sqlStr = `delete from feedback where id = ?`
+        db.query(sqlStr, [id], (err, result) => {
+            if (err) {
+                return res.send({
+                    status: 500,
+                    message: '删除数据失败'
+                })
+            } else {
+                return res.send({
+                    message: 'Success',
+                    status: 200,
+                })
+            }
+
+        })
     }
 }
 

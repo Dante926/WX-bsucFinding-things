@@ -26,7 +26,11 @@
                         </el-menu-item>
                         <el-menu-item index="/admin">
                             <i class="el-icon-user-solid"></i>
-                            <span slot="title">管理员管理</span>
+                            <span slot="title">超管管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="/advice">
+                            <i class="el-icon-edit-outline"></i>
+                            <span slot="title">反馈管理</span>
                         </el-menu-item>
                     </el-menu></el-aside>
 
